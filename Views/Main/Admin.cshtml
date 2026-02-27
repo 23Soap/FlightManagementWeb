@@ -1,0 +1,71 @@
+﻿@model IEnumerable<FlightManagementWeb.Models.Flight>
+
+@{
+    ViewData["admin"] = "admin";
+}
+<h1>Manage Flights</h1>
+<p>
+    <a asp-action="CreateFlight" class="btn btn-primary">Create a New Flight</a>
+</p>
+@foreach (var flight in Model)
+{
+    @if (flight.Capacity < 15)
+    {
+        <td class="text-danger">Flight ID: @flight.FlightId, Less then 15 Seats are available </td>
+    }
+}
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Airlines Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartureCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArrivalCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            Action
+        </th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var flight in Model)
+    {
+        <tr>
+            <td>@flight.AirlineName</td>
+            
+            <td>@flight.FlightId</td>
+
+            <td>@flight.DepartureCity</td>
+
+            <td>@flight.ArrivalCity</td>
+
+            <td>@flight.Capacity
+                @if (flight.Capacity <= 20)
+                {
+                    <p class="btn btn-warning">Less then 20 Seats are available! </p>
+                }
+                </td>
+
+            <td>$@flight.Price"</td>
+            <td><p><a asp-action="EditFlight" asp-route-id="@flight.FlightId" class="btn btn-primary">Edit Flight</a></p></td>
+        </tr>
+        
+    }
+    </tbody>
+</table> 
+

@@ -1,0 +1,107 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model IEnumerable<FlightManagementWeb.Models.Flight>
+
+@{
+    ViewData["Menu"] = "Menu";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+
+<form method="get" asp-action="Admin">
+    <h1>Flight Search Menu</h1>
+    <input type="text" placeholder="From" name="searchString">
+    <input type="text" placeholder="To"/>
+    <input type="date" placeholder="Depart Date"/>
+    <input type="date" placeholder="Return Date"/>
+    <button type="submit" name="button">Search</button>
+    <select name="searchString" class="form-control">
+        
+    </select>
+    <select name="searchString" class="form-control">
+        <option>From</option>
+        @if (ViewBag.dCities != null)
+        {
+            foreach (var departureCity in ViewBag.dCities )
+            {
+                <option value="@departureCity" >@departureCity</option>
+            }
+        }
+    </select>
+    <select class="form-control">
+        <option>To</option>
+        @if (ViewBag.aCities != null)
+        {
+            foreach (var arrivalCity in ViewBag.aCities)
+            {
+                <option value="@arrivalCity">@arrivalCity</option>
+            }
+        }
+    </select>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Airlines Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>Date</th>
+            <th>
+                Action
+            </th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var flight in Model)
+        {
+            <tr>
+                <td>@flight.AirlineName</td>
+            
+                <td>@flight.FlightId</td>
+
+                <td>@flight.DepartureCity</td>
+
+                <td>@flight.ArrivalCity</td>
+
+                <td>@flight.Capacity
+                    @if (flight.Capacity <= 20)
+                    {
+                        <p class="btn btn-warning">Less then 20 Seats are available! </p>
+                    }
+                </td>
+
+                <td>$@flight.Price"</td>
+                <td>@flight.DepartureDate</td>
+                <td><p><a asp-action="BuyFlight" asp-route-id="@flight.FlightId" class="btn btn-primary">BuyFlight</a></p></td>
+            </tr>
+        
+        }
+        </tbody>
+    </table> 
+        
+</form>
+<div>
+
+</div>
+</body>
+</html>

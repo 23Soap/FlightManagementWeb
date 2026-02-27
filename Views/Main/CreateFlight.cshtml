@@ -1,0 +1,59 @@
+﻿@model Flight
+@{
+    ViewData["CreateFlight"] = "CreateFlight";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    
+    
+</head>
+<body>
+<title>title</title>
+<form asp-action="CreateFlight" method="post">
+        
+    <div class="form-group">
+        <th>
+            @Html.DisplayNameFor(model => model.AirlineName)
+        </th>
+        <input asp-for="AirlineName" class="form-control"/>
+        <span asp-validation-for="AirlineName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <th>
+            @Html.DisplayNameFor(model => model.DepartureCity)
+        </th>
+        <input asp-for="DepartureCity" class="form-control"/>
+        <span asp-validation-for="DepartureCity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <th>
+            @Html.DisplayNameFor(model => Model.ArrivalCity)
+        </th>
+        <input asp-for="ArrivalCity" class="form-control">
+        <span asp-validation-for="ArrivalCity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(model => Model.DepartureDate)
+        <input asp-for="DepartureDate"/>
+        <span asp-validation-for="DepartureDate" class="text-danger"></span>
+    </div>
+    <div class="form-control">
+        @Html.DisplayNameFor(model => Model.Price)
+        <input asp-for="Price"/>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-control">
+        @Html.DisplayNameFor(model => Model.Capacity)
+        <input asp-for="Capacity"/>
+        <span asp-validation-for="Capacity" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save a Flight</button>
+</form>
+<div>
+
+</div>
+</body>
+</html>
