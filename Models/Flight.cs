@@ -8,10 +8,8 @@ public class Flight
     [Key] 
     [Display(Name = "Flight ID")]
     public int FlightId { get; set; }
-    
-    [Required]
-    [Display(Name = "Airline Name")]
-    public string AirlineName { get; set; }
+    public int AircraftId { get; set; }
+    public Aircraft Aircraft { get; set; }
 
     [Required]
     [Display(Name = "Departure City")]
@@ -24,18 +22,14 @@ public class Flight
     [Required]
     [Display(Name = "Departure Date")]
     public DateTime DepartureDate { get; set; }
+    
+    [Required]
+    [Display(Name = "FlightDuration")]
+    public int FlightDuration { get; set; }
 
     [Required] 
     [Column(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }
-
     
-    [Required] 
-    [Display(Name = "Capacity of Flight")]
-    public int Capacity { get; set; }
-    
-    [Required]
-    public int RemainingCapacity { get; set; }
-    public int NumberOfPassengers { get; set; }
 
 }

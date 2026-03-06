@@ -8,27 +8,36 @@ using Index = System.Index;
 
 namespace FlightManagementWeb.Controllers;
 
-public class MainController : Controller
+public class FlightController : Controller
 {
     private readonly ApplicationDbContext _context;
-    public MainController(ApplicationDbContext context)
+    public FlightController(ApplicationDbContext context)
     {
         _context = context;
     }
     
     [HttpGet]
-    public async Task <IActionResult> Menu()
+    public async Task <IActionResult> Menu(string searchString)
     {
         var departureCity = _context.Flights.Select(flights => flights.DepartureCity).Distinct().OrderBy(c => c).ToList();
         ViewBag.dCities = departureCity;
         
         var arrivalCity = _context.Flights.Select(flight => flight.ArrivalCity ).Distinct().OrderBy(c => c).ToList();
         ViewBag.aCities = arrivalCity;
-        
-        
+
+        if (departureCity != null && departureCity.Count > 0)
+        {
+            return View(_context.Flights.ToList());
+        }
+
+        var find = _context.Flights.AsQueryable();
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            find = find.Where(flight => flight.DepartureCity.Contains(searchString));
+        }
         
         var allFlights = await _context.Flights.ToListAsync();
-        return View(allFlights);
+        return View(await find.ToListAsync());
     }
 
     [HttpGet]
@@ -106,7 +115,11 @@ public class MainController : Controller
         {
             return NotFound();
         }
-        var flight = await _context.Flights.FirstOrDefaultAsync(flight => flight.FlightId == id  );
+        var flight = await _context.Flights.FirstOrDefaultAsync(flight => flight.FlightId == id);
+        for (flight.FlightId  = 0; flight.FlightId < flight.FlightId; flight.FlightId--)
+        {
+            
+        }
         if (flight == null) return NotFound();
         return View(flight);
     }

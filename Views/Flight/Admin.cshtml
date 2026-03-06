@@ -7,13 +7,8 @@
 <p>
     <a asp-action="CreateFlight" class="btn btn-primary">Create a New Flight</a>
 </p>
-@foreach (var flight in Model)
-{
-    @if (flight.Capacity < 15)
-    {
-        <td class="text-danger">Flight ID: @flight.FlightId, Less then 15 Seats are available </td>
-    }
-}
+<h3>Total Available Flights (@Model.Count())</h3>
+
 <table class="table">
     <thead>
     <tr>
@@ -29,9 +24,10 @@
         <th>
             @Html.DisplayNameFor(model => model.ArrivalCity)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Capacity)
-        </th>
+        
+        
+        
+        
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
@@ -46,7 +42,7 @@
     @foreach (var flight in Model)
     {
         <tr>
-            <td>@flight.AirlineName</td>
+           
             
             <td>@flight.FlightId</td>
 
@@ -54,12 +50,9 @@
 
             <td>@flight.ArrivalCity</td>
 
-            <td>@flight.Capacity
-                @if (flight.Capacity <= 20)
-                {
-                    <p class="btn btn-warning">Less then 20 Seats are available! </p>
-                }
-                </td>
+            
+            
+            
 
             <td>$@flight.Price"</td>
             <td><p><a asp-action="EditFlight" asp-route-id="@flight.FlightId" class="btn btn-primary">Edit Flight</a></p></td>

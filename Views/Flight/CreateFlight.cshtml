@@ -1,6 +1,6 @@
 ﻿@model Flight
 @{
-    ViewData["EditFlight"] = "EditFlight";
+    ViewData["CreateFlight"] = "CreateFlight";
 }
 
 <!DOCTYPE html>
@@ -11,16 +11,11 @@
     
 </head>
 <body>
-<H2>Edit Flight</H2>
-<form asp-action="EditFlight" method="post">
+<title>title</title>
+<form asp-action="CreateFlight" method="post">
         
     <div class="form-group">
-        <input type="hidden" asp-for="FlightId"/>
-        <th>
-            @Html.DisplayNameFor(model => model.AirlineName)
-        </th>
-        <input asp-for="AirlineName" class="form-control"/>
-        <span asp-validation-for="AirlineName" class="text-danger"></span>
+        
     </div>
     <div class="form-group">
         <th>
@@ -47,15 +42,10 @@
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
     <div class="form-control">
-        @Html.DisplayNameFor(model => Model.Capacity)
-        <input asp-for="Capacity"/>
-        <span asp-validation-for="Capacity" class="text-danger"></span>
+        
+        
     </div>
     <button type="submit" class="btn btn-primary">Save a Flight</button>
-    <a asp-action="DeleteFlight" asp-route-id="@Model.FlightId" class="btn btn-danger">Delete Flight</a>
-    <a asp-action="Admin" class="btn btn-primary">Go Back</a>
-    
-    
 </form>
 <div>
 

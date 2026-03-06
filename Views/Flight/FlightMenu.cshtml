@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form method="get" asp-action="Admin">
+<form method="get" asp-action="Menu">
     <h1>Flight Search Menu</h1>
     <input type="text" placeholder="From" name="searchString">
     <input type="text" placeholder="To"/>
@@ -32,6 +32,8 @@
             }
         }
     </select>
+    
+    <h4>Available Flights (@Model.Count())</h4>
     <select class="form-control">
         <option>To</option>
         @if (ViewBag.aCities != null)
@@ -57,9 +59,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ArrivalCity)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Capacity)
-            </th>
+            
+            
+            
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
@@ -75,7 +77,7 @@
         @foreach (var flight in Model)
         {
             <tr>
-                <td>@flight.AirlineName</td>
+                
             
                 <td>@flight.FlightId</td>
 
@@ -83,12 +85,7 @@
 
                 <td>@flight.ArrivalCity</td>
 
-                <td>@flight.Capacity
-                    @if (flight.Capacity <= 20)
-                    {
-                        <p class="btn btn-warning">Less then 20 Seats are available! </p>
-                    }
-                </td>
+                
 
                 <td>$@flight.Price"</td>
                 <td>@flight.DepartureDate</td>

@@ -1,0 +1,22 @@
+﻿@using FlightManagementWeb.Migrations
+@model FlightManagementWeb.Models.Aircraft 
+//we are telling which controller are this page going to work with
+
+@{
+    ViewData["AircraftMenu"] = "Aircraft Menu";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Add Aircraft Admin Page</title>
+    <h1>Add Aircraft Admin Page</h1>
+</head>
+<body>
+    <a asp-action="CreateAircraft" class="btn btn-primary">Create a Aircraft</a>
+    
+
+
+</body>
+</html>
