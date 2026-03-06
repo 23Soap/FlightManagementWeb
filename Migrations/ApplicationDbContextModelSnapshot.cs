@@ -41,6 +41,10 @@ namespace FlightManagementWeb.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TailNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("AircraftId");
 
                     b.ToTable("Aircrafts");

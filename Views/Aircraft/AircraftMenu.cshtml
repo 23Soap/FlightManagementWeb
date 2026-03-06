@@ -1,6 +1,4 @@
-﻿@using FlightManagementWeb.Migrations
-@model FlightManagementWeb.Models.Aircraft 
-//we are telling which controller are this page going to work with
+﻿@model List<FlightManagementWeb.Models.Aircraft>
 
 @{
     ViewData["AircraftMenu"] = "Aircraft Menu";
@@ -11,11 +9,48 @@
 <html>
 <head>
     <title>Add Aircraft Admin Page</title>
-    <h1>Add Aircraft Admin Page</h1>
+    <h1>Manage Aircraft Admin Page</h1>
 </head>
 <body>
-    <a asp-action="CreateAircraft" class="btn btn-primary">Create a Aircraft</a>
+
+<a asp-action="CreateAircraft" class="btn btn-primary">Create a Aircraft</a>
+
+<table class="table table-info">
+    <thead>
     
+    <tr>
+        
+        <th scope="col">Tail Number</th>
+        <th scope="col">Airline Name</th>
+        <th scope="col">Airplane Model</th>
+        <th scope="col">Airplane Capacity</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <h4>There is No Aircraft Records</h4>
+        </div>
+    }
+    else
+    {
+        @foreach (var aircraft in Model)
+        {
+            <tr>
+                <th>@aircraft.TailNumber</th>
+                <th>@aircraft.AirlineName</th>
+                <th>@aircraft.AircraftModel</th>
+                <th>@aircraft.Capacity</th>
+            </tr>
+        }
+        
+    }
+    
+    </tbody>
+</table>
+
 
 
 </body>

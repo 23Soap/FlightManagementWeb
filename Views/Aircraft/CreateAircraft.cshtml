@@ -4,39 +4,34 @@
     ViewData["CreateAircraft"] = "Create Aircraft";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
+<title>title</title>
 <form asp-action="Create" method="post">
     
     <div class="mb-3">
-        <label class="form-label">Aircraft Model</label>
-        <input type="text" class="form-control" placeholder="Enter Aircraft Model"/>
-    </div>
-    
-    <div class="mb-3">
-        <label class="form-label">Airline Name</label>
-        <input type="text" class="form-control" placeholder="Enter Airline Name"/>
-    </div>
-    
-    <div class="mb-3">
-        <label class="form-label">Capacity</label>
-        <input type="number"class="form-control" placeholder="Enter Aircraft Capacity"/>
+        <label class="form-label">Tail Number</label>
+        <input asp-for="TailNumber" type="text" class="form-control" placeholder="Enter Tail Number" />
     </div>
 
-    <button type="submit" class="btn btn-success">Save the Airplane</button>
+    <div class="mb-3">
+        <label class="form-label">Aircraft Model</label>
+        <input asp-for="AircraftModel" type="text" class="form-control" placeholder="Enter Aircraft Model"/>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Airline Name</label>
+        <input asp-for="AirlineName"type="text" class="form-control" placeholder="Enter Airline Name"/>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Capacity</label>
+        <input asp-for="Capacity" type="number"class="form-control" placeholder="Enter Aircraft Capacity"/>
+    </div>
+
+    <button asp-action="CreateAircraft" type="submit" class="btn btn-success">Save the Airplane</button>
     <a asp-action="AircraftMenu" class="btn btn-danger">Go Back</a>
-    
-    
+
+
     <h2>Saved Aircraft(s)</h2>
 
 </form>
-<div>
 
-</div>
-</body>
-</html>

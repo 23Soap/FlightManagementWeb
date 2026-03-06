@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FlightManagementWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260305063116_UpdateFlightAndAircraftModels")]
-    partial class UpdateFlightAndAircraftModels
+    [Migration("20260306065107_FlightDbSetup")]
+    partial class FlightDbSetup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,10 @@ namespace FlightManagementWeb.Migrations
 
                     b.Property<int>("Capacity")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TailNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("AircraftId");
 

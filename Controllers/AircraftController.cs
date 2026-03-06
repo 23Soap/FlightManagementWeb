@@ -16,7 +16,8 @@ public class AircraftController : Controller
     [HttpGet]
     public IActionResult AircraftMenu()
     {
-        return View();
+        var aircraftList = _context.Aircrafts.ToList();
+        return View(aircraftList);
     }
 
     [HttpGet]
@@ -31,8 +32,15 @@ public class AircraftController : Controller
         
         if (ModelState.IsValid)
         {
+            if (!string.IsNullOrEmpty(aircraft.AircraftModel) && !string.IsNullOrWhiteSpace(aircraft.TailNumber) && !string.IsNullOrWhiteSpace(aircraft.AirlineName))
+            {
+                aircraft.AircraftModel = aircraft.AircraftModel.ToUpper();
+                aircraft.TailNumber = aircraft.TailNumber.ToUpper();
+                aircraft.AirlineName = aircraft.AirlineName;
+            }
             _context.Aircrafts.Add(aircraft);
             await _context.SaveChangesAsync();
+            return RedirectToAction("AircraftMenu");
         }
         return View(aircraft);
     }

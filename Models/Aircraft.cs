@@ -7,6 +7,10 @@ public class Aircraft
         [Key] [Required]
         [Display(Name = "Aircraft ID")]
         public int AircraftId { get; set; }
+        
+        [Required]
+        [Display(Name = "Tail Number")]
+        public string TailNumber { get; set; }
     
         [Required]
         [Display(Name = "Aircraft Model")]

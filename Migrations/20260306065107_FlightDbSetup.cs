@@ -7,11 +7,27 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FlightManagementWeb.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class FlightDbSetup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Aircrafts",
+                columns: table => new
+                {
+                    AircraftId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TailNumber = table.Column<string>(type: "text", nullable: false),
+                    AircraftModel = table.Column<string>(type: "text", nullable: false),
+                    AirlineName = table.Column<string>(type: "text", nullable: false),
+                    Capacity = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Aircrafts", x => x.AircraftId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -61,17 +77,22 @@ namespace FlightManagementWeb.Migrations
                 {
                     FlightId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    AircraftId = table.Column<int>(type: "integer", nullable: false),
                     DepartureCity = table.Column<string>(type: "text", nullable: false),
                     ArrivalCity = table.Column<string>(type: "text", nullable: false),
                     DepartureDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    Capacity = table.Column<int>(type: "integer", nullable: false),
-                    RemainingCapacity = table.Column<int>(type: "integer", nullable: false),
-                    NumberOfPassengers = table.Column<int>(type: "integer", nullable: false)
+                    FlightDuration = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Flights", x => x.FlightId);
+                    table.ForeignKey(
+                        name: "FK_Flights_Aircrafts_AircraftId",
+                        column: x => x.AircraftId,
+                        principalTable: "Aircrafts",
+                        principalColumn: "AircraftId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,6 +237,11 @@ namespace FlightManagementWeb.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Flights_AircraftId",
+                table: "Flights",
+                column: "AircraftId");
         }
 
         /// <inheritdoc />
@@ -244,6 +270,9 @@ namespace FlightManagementWeb.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Aircrafts");
         }
     }
 }
