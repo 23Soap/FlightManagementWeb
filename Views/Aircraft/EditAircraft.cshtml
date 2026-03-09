@@ -1,11 +1,15 @@
 ﻿@model FlightManagementWeb.Models.Aircraft
 
 @{
-    ViewData["CreateAircraft"] = "Create Aircraft";
+    ViewData["EditAircraft"] = "Edit Aircraft";
 }
+<body>
 
-<title>title</title>
-<form asp-action="Create" method="post">
+<form method="post" asp-action="EditAircraft">
+    
+    <h2>Edit Aircraft Information's</h2>
+    
+    <input type="hidden" asp-for="AircraftId" />
 
     <div class="mb-3">
         <label class="form-label">Tail Number</label>
@@ -19,7 +23,6 @@
         <span asp-validation-for="AircraftModel" class="text-danger"></span>
     </div>
     
-
     <div class="mb-3">
         <label class="form-label">Airline Name</label>
         <input asp-for="AirlineName" type="text" class="form-control" placeholder="Enter Airline Name"/>
@@ -32,8 +35,8 @@
         <span asp-validation-for="Capacity" class="text-danger"></span>
     </div>
 
-    <button asp-action="CreateAircraft" type="submit" class="btn btn-success">Save the Airplane</button>
+    <button type="submit" class="btn btn-success">Update the Airplane Information's</button>
     <a asp-action="AircraftMenu" class="btn btn-danger">Go Back</a>
-
 </form>
 
+</body>

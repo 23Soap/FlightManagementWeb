@@ -61,7 +61,7 @@ public class FlightController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateFlight([Bind("AirlineName,DepartureCity,ArrivalCity,DepartureDate,Price,Capacity")] Flight flight)
+    public async Task<IActionResult> CreateFlight([Bind("DepartureCity,ArrivalCity,DepartureDate,Price")] Flight flight)
     {
             if (ModelState.IsValid)
             {

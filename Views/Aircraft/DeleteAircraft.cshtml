@@ -1,0 +1,13 @@
+﻿@model FlightManagementWeb.Models.Aircraft
+
+@{
+    ViewData["DeleteAircraft"] = "Delete Aircraft";
+}
+
+<form method="post" asp-action="DeleteAircraft">
+    <h3>Do you want to Delete?</h3>
+    <h5>Aircraft Tail Number: @Model.TailNumber</h5>
+    <h5>Airline Name: @Model.AirlineName</h5>
+    <button type="submit" asp-action="DeleteAircraft" asp-route-id="@Model.AircraftId" class=" btn btn-primary">Yes</button>
+    <a asp-action="AircraftMenu" class="btn btn-danger">No</a>
+</form>

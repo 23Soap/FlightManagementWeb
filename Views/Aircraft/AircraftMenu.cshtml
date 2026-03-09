@@ -15,6 +15,12 @@
 
 <a asp-action="CreateAircraft" class="btn btn-primary">Create a Aircraft</a>
 
+<div>
+    <h4>
+        Total Saved Aircraft (@Model.Count)
+    </h4>
+</div>
+
 <table class="table table-info">
     <thead>
     
@@ -24,6 +30,7 @@
         <th scope="col">Airline Name</th>
         <th scope="col">Airplane Model</th>
         <th scope="col">Airplane Capacity</th>
+        <th scope="col">Action Button</th>
     </tr>
     </thead>
     <tbody>
@@ -39,10 +46,18 @@
         @foreach (var aircraft in Model)
         {
             <tr>
-                <th>@aircraft.TailNumber</th>
-                <th>@aircraft.AirlineName</th>
-                <th>@aircraft.AircraftModel</th>
-                <th>@aircraft.Capacity</th>
+                <td>@aircraft.TailNumber</td>
+                <td>@aircraft.AirlineName</td>
+                <td>@aircraft.AircraftModel</td>
+                <td>@aircraft.Capacity</td>
+                <td>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a asp-action="EditAircraft" asp-route-id="@aircraft.AircraftId" class="btn btn-warning">Edit Aircraft </a>
+                        <a asp-action="DeleteAircraft" asp-route-id="@aircraft.AircraftId" class="btn btn-danger">Delete Aircraft</a>
+                    </div>
+                </td>
+               
+                
             </tr>
         }
         
