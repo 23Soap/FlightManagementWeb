@@ -13,10 +13,9 @@
 <body>
 <H2>Edit Flight</H2>
 <form asp-action="EditFlight" method="post">
-        
+    <input type="hidden" asp-for="FlightId"/>
     <div class="form-group">
-        <input type="hidden" asp-for="FlightId"/>
-        
+
     </div>
     <div class="form-group">
         <th>
@@ -42,14 +41,20 @@
         <input asp-for="Price"/>
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
-    <div class="form-control">
-        
+    <div class="form-group mb-3">
+
+        <label asp-for="AircraftId" class="control-label">Select Aircraft Here</label>
+        <select asp-for="AircraftId" class="form-control" asp-items="ViewBag.AircraftList">
+            <option value="">Please Select a Plane</option>
+        </select>
+        <span asp-validation-for="AircraftId" class="text-danger"></span>
+
     </div>
     <button type="submit" class="btn btn-primary">Save a Flight</button>
     <a asp-action="DeleteFlight" asp-route-id="@Model.FlightId" class="btn btn-danger">Delete Flight</a>
     <a asp-action="Admin" class="btn btn-primary">Go Back</a>
-    
-    
+
+
 </form>
 <div>
 

@@ -27,7 +27,7 @@ public class AircraftController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult>  CreateAircraft(Aircraft aircraft)
+    public async Task<IActionResult> CreateAircraft(Aircraft aircraft)
     {
         
         if (ModelState.IsValid)
@@ -93,7 +93,7 @@ public class AircraftController : Controller
             {
                 aircraft.AircraftModel = aircraft.AircraftModel.ToUpper();
                 aircraft.TailNumber = aircraft.TailNumber.ToUpper();
-                aircraft.AirlineName = aircraft.AirlineName;
+                aircraft.AirlineName = aircraft.AirlineName.ToUpper();
                 
                 _context.Aircrafts.Update(aircraft);
                 await _context.SaveChangesAsync();

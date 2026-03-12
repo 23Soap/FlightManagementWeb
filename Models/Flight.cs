@@ -9,7 +9,7 @@ public class Flight
     [Display(Name = "Flight ID")]
     public int FlightId { get; set; }
     public int AircraftId { get; set; }
-    public Aircraft Aircraft { get; set; }
+    public Aircraft? Aircraft { get; set; }
 
     [Required]
     [Display(Name = "Departure City")]

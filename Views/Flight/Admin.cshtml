@@ -13,10 +13,10 @@
     <thead>
     <tr>
         <th>
-            Airlines Name
+            @Html.DisplayNameFor(model => model.Aircraft.AirlineName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FlightId)
+            @Html.DisplayNameFor(model => model.Aircraft.TailNumber)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DepartureCity)
@@ -24,10 +24,6 @@
         <th>
             @Html.DisplayNameFor(model => model.ArrivalCity)
         </th>
-        
-        
-        
-        
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
@@ -44,18 +40,17 @@
         <tr>
            
             
-            <td>@flight.FlightId</td>
+            <td>@flight.Aircraft.AirlineName</td>
+            
+            <td>@flight.Aircraft.TailNumber</td>
 
             <td>@flight.DepartureCity</td>
 
             <td>@flight.ArrivalCity</td>
-
             
-            
-            
-
             <td>$@flight.Price"</td>
             <td><p><a asp-action="EditFlight" asp-route-id="@flight.FlightId" class="btn btn-primary">Edit Flight</a></p></td>
+            <td><p><a asp-action="DeleteFlight" asp-route-id="@flight.FlightId" class="btn btn-warning">Delete Flight</a></p></td>
         </tr>
         
     }

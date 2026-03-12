@@ -1,150 +1,109 @@
-﻿using System.Data;
+﻿
 using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Index = System.Index;
+
 
 namespace FlightManagementWeb.Controllers;
 
 public class FlightController : Controller
 {
     private readonly ApplicationDbContext _context;
+
     public FlightController(ApplicationDbContext context)
     {
         _context = context;
     }
     
+    
     [HttpGet]
-    public async Task <IActionResult> Menu(string searchString)
+    public async Task<IActionResult> Admin()
     {
-        var departureCity = _context.Flights.Select(flights => flights.DepartureCity).Distinct().OrderBy(c => c).ToList();
-        ViewBag.dCities = departureCity;
-        
-        var arrivalCity = _context.Flights.Select(flight => flight.ArrivalCity ).Distinct().OrderBy(c => c).ToList();
-        ViewBag.aCities = arrivalCity;
-
-        if (departureCity != null && departureCity.Count > 0)
-        {
-            return View(_context.Flights.ToList());
-        }
-
-        var find = _context.Flights.AsQueryable();
-        if (!string.IsNullOrEmpty(searchString))
-        {
-            find = find.Where(flight => flight.DepartureCity.Contains(searchString));
-        }
-        
-        var allFlights = await _context.Flights.ToListAsync();
-        return View(await find.ToListAsync());
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Admin(string searchString)
-    {
-        var searchFlights = from flight in _context.Flights select flight;
-        if (!string.IsNullOrEmpty(searchString))
-        {
-            searchFlights = searchFlights.Where(searchFlights => searchFlights.DepartureCity.Contains(searchString)||searchFlights.ArrivalCity.Contains(searchString));
-        }
-        
-        return View(await searchFlights.ToListAsync());
+        var list = await _context.Flights.Include(plane => plane.Aircraft).ToListAsync();
+        return View(list);
     }
 
     [HttpGet]
     public IActionResult CreateFlight()
     {
-        return View();
-    }
-    
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateFlight([Bind("DepartureCity,ArrivalCity,DepartureDate,Price")] Flight flight)
-    {
-            if (ModelState.IsValid)
-            {
-                flight.DepartureDate = DateTime.SpecifyKind(flight.DepartureDate, DateTimeKind.Utc);
-                _context.Add(flight);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Admin));
-            }
+        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber","AircraftName","AirlineName");
         return View();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> EditFlight(int id)
-    {
-        var flight = await _context.Flights.FindAsync(id);
-        if (flight == null) return NotFound();
-        return View(flight);
-    }
-
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public  async Task<IActionResult> EditFlight(int id,[Bind("FlightId,AirlineName,DepartureCity,ArrivalCity,DepartureDate,Price,Capacity")] Flight flight)
+    public async Task<IActionResult> CreateFlight(Flight flight)
     {
-        if (id != flight.FlightId)
-        {
-            return NotFound();
-        }
         if (ModelState.IsValid)
         {
-            try
-            {
-                flight.DepartureDate = DateTime.SpecifyKind(flight.DepartureDate, DateTimeKind.Utc);
-                
-                _context.Update(flight);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Admin));
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                ModelState.AddModelError("","Unavailable to save changes");
-            }
+            flight.DepartureDate = DateTime.SpecifyKind(flight.DepartureDate, DateTimeKind.Utc);
             
+           _context.Flights.Add(flight);
+           await _context.SaveChangesAsync();
+           return RedirectToAction("Admin");
         }
+        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber","AircraftName","AirlineName");
         return View(flight);
     }
 
     [HttpGet]
-    public async Task<IActionResult> DeleteFlight(int id)
+    public IActionResult EditFlight(int id)
     {
-        if (id == null)
+        var data = _context.Flights.FirstOrDefault(p => p.FlightId == id);
+        if (data == null)
         {
             return NotFound();
         }
-        var flight = await _context.Flights.FirstOrDefaultAsync(flight => flight.FlightId == id);
-        for (flight.FlightId  = 0; flight.FlightId < flight.FlightId; flight.FlightId--)
+        
+        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber", "AircraftName","Capacity");
+        return View(data);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditFlight(Flight flight)
+    {
+        if (ModelState.IsValid)
         {
+            flight.DepartureDate = DateTime.SpecifyKind(flight.DepartureDate, DateTimeKind.Utc);
+            _context.Flights.Update(flight);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Admin));
             
         }
-        if (flight == null) return NotFound();
+        
+        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber", "AircraftName");
         return View(flight);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DeleteFlight(int? id)
+    {
+        var data = await _context.Flights.Include(plane => plane.Aircraft).FirstOrDefaultAsync(plane => plane.FlightId == id);
+        
+        if (data == null)
+        {
+            return NotFound();
+        }
+        return View(data);
     }
 
     [HttpPost, ActionName("DeleteFlight")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteFlight(int id)
     {
-        var flight = await _context.Flights.FindAsync(id);
+        var data = await  _context.Flights.FirstOrDefaultAsync(plane => plane.FlightId == id);
 
-        if (flight == null)
+        if (data != null)
         {
-            return RedirectToAction(nameof(Admin));
-        }
-
-        try
-        {
-            _context.Flights.Remove(flight);
+            _context.Flights.Remove(data);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Admin));
         }
-        catch (DbUpdateException e)
-        {
-            return RedirectToAction(nameof(DeleteFlight), new { id });
-        }
+        return RedirectToAction(nameof(Admin));
     }
+    
+    
+
+    
+   
     
 }
