@@ -4,7 +4,7 @@ using FlightManagementWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq;
 
 namespace FlightManagementWeb.Controllers;
 
@@ -26,9 +26,22 @@ public class FlightController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> SearchMenu(Flight flight)
+    {
+
+        var CityList = _context.Flights.Select(flight => flight.DepartureCity).Distinct().ToList();
+        ViewBag.CitiesForDropDown = new SelectList(CityList);
+        return View();
+    }
+
+    [HttpGet]
     public IActionResult CreateFlight()
     {
-        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber","AircraftName","AirlineName");
+        var availableAircrafts = _context.Aircrafts
+            .Where(a => !_context.Flights.Any(f => f.AircraftId == a.AircraftId))
+            .ToList();
+        
+        ViewBag.AircraftList = new SelectList(availableAircrafts, "AircraftId", "TailNumber","AircraftName","AirlineName");
         return View();
     }
 
@@ -38,12 +51,20 @@ public class FlightController : Controller
         if (ModelState.IsValid)
         {
             flight.DepartureDate = DateTime.SpecifyKind(flight.DepartureDate, DateTimeKind.Utc);
+
+            flight.ArrivalCity = flight.ArrivalCity.ToUpper();
+            flight.DepartureCity = flight.DepartureCity.ToUpper();
             
            _context.Flights.Add(flight);
            await _context.SaveChangesAsync();
            return RedirectToAction("Admin");
         }
-        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber","AircraftName","AirlineName");
+        
+        var availableAircrafts = _context.Aircrafts
+            .Where(a => !_context.Flights.Any(f => f.AircraftId == a.AircraftId))
+            .ToList();
+        ViewBag.AircraftList = new SelectList(availableAircrafts, "AircraftId", "TailNumber","AircraftName","AirlineName");
+        
         return View(flight);
     }
 
@@ -56,7 +77,7 @@ public class FlightController : Controller
             return NotFound();
         }
         
-        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber", "AircraftName","Capacity");
+        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber", "AircraftName");
         return View(data);
     }
 
@@ -66,6 +87,8 @@ public class FlightController : Controller
         if (ModelState.IsValid)
         {
             flight.DepartureDate = DateTime.SpecifyKind(flight.DepartureDate, DateTimeKind.Utc);
+            flight.ArrivalCity = flight.ArrivalCity.ToUpper();
+            flight.DepartureCity = flight.DepartureCity.ToUpper();
             _context.Flights.Update(flight);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Admin));
@@ -100,10 +123,5 @@ public class FlightController : Controller
         }
         return RedirectToAction(nameof(Admin));
     }
-    
-    
-
-    
-   
     
 }

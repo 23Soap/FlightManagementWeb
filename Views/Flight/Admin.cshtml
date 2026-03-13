@@ -38,7 +38,6 @@
     @foreach (var flight in Model)
     {
         <tr>
-           
             
             <td>@flight.Aircraft.AirlineName</td>
             
@@ -49,10 +48,9 @@
             <td>@flight.ArrivalCity</td>
             
             <td>$@flight.Price"</td>
-            <td><p><a asp-action="EditFlight" asp-route-id="@flight.FlightId" class="btn btn-primary">Edit Flight</a></p></td>
-            <td><p><a asp-action="DeleteFlight" asp-route-id="@flight.FlightId" class="btn btn-warning">Delete Flight</a></p></td>
+            <td><p><a asp-action="EditFlight" asp-route-id="@flight.FlightId" class="btn btn-warning">Edit Flight</a></p></td>
+            <td><p><a asp-action="DeleteFlight" asp-route-id="@flight.FlightId" class="btn btn-danger">Delete Flight</a></p></td>
         </tr>
-        
     }
     </tbody>
 </table> 

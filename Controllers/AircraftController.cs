@@ -37,7 +37,7 @@ public class AircraftController : Controller
             {
                 aircraft.AircraftModel = aircraft.AircraftModel.ToUpper();
                 aircraft.TailNumber = aircraft.TailNumber.ToUpper();
-                aircraft.AirlineName = aircraft.AirlineName;
+                aircraft.AirlineName = aircraft.AirlineName.ToUpper();
             }
             _context.Aircrafts.Add(aircraft);
             await _context.SaveChangesAsync();

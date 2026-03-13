@@ -1,0 +1,20 @@
+﻿@model FlightManagementWeb.Models.Flight
+
+@{
+    ViewData["SearchMenu"] = "Search Menu";
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+
+<div class="dropdown">
+    <label asp-for="FlightId">Select Departure City</label>
+    <select class="form-select" asp-for="DepartureCity" asp-items="ViewBag.CitiesForDropDown">
+        <option>Select Departure City</option>
+    </select>
+</div>
+
+</body>
+</html>

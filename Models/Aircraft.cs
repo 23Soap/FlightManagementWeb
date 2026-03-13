@@ -4,6 +4,8 @@ namespace FlightManagementWeb.Models;
 
 public class Aircraft
 {
+        
+        public ICollection<Flight> Flights { get; set; }
         [Key] [Required(ErrorMessage =  "Aircraft ID is required")]
         [Display(Name = "Aircraft ID")]
         public int AircraftId { get; set; }
