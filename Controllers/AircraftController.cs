@@ -38,6 +38,7 @@ public class AircraftController : Controller
                 aircraft.AircraftModel = aircraft.AircraftModel.ToUpper();
                 aircraft.TailNumber = aircraft.TailNumber.ToUpper();
                 aircraft.AirlineName = aircraft.AirlineName.ToUpper();
+                aircraft.Capacity = aircraft.Capacity;
             }
             _context.Aircrafts.Add(aircraft);
             await _context.SaveChangesAsync();
@@ -51,7 +52,7 @@ public class AircraftController : Controller
     {
         var data = _context.Aircrafts.FirstOrDefault(plane => plane.AircraftId == id);
 
-        if (id != null)
+        if (data != null)
         {
             return  (View(data));
         }
@@ -63,12 +64,13 @@ public class AircraftController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var data = _context.Aircrafts.FirstOrDefault(plane => plane.AircraftId == id);
-
-        if (data != null)
+        if (data == null)
         {
+            return NotFound();
+        }
             _context.Aircrafts.Remove(data);
             await _context.SaveChangesAsync();
-        }
+        
         return RedirectToAction("AircraftMenu");
     }
 
@@ -95,11 +97,10 @@ public class AircraftController : Controller
                 aircraft.TailNumber = aircraft.TailNumber.ToUpper();
                 aircraft.AirlineName = aircraft.AirlineName.ToUpper();
                 
-                _context.Aircrafts.Update(aircraft);
-                await _context.SaveChangesAsync();
-        
-                
             }
+            _context.Aircrafts.Update(aircraft);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("AircraftMenu");
         }
         return View(aircraft);
