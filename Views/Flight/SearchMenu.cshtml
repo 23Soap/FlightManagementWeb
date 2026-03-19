@@ -1,20 +1,73 @@
-﻿@model FlightManagementWeb.Models.Flight
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
 
 @{
     ViewData["SearchMenu"] = "Search Menu";
 }
-
-<!DOCTYPE html>
-
 <html>
 <body>
 
-<div class="dropdown">
-    <label asp-for="FlightId">Select Departure City</label>
-    <select class="form-select" asp-for="DepartureCity" asp-items="ViewBag.CitiesForDropDown">
-        <option>Select Departure City</option>
-    </select>
-</div>
-
+<form method="get" asp-action="SearchMenu">
+    <div class="dropdown">
+        <select class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"  name="departure" onchange="this.form.submit()">
+            <option >Select Departure City</option>
+            @foreach (var city in ViewBag.departureCitiesForDropDown)
+            {
+                if (city.Text == ViewBag.SelectedDepartureCity)
+                {
+                    <option class="dropdown-item" value="@city.Text" selected>@city.Text</option>
+                }
+                else
+                {
+                    <option class="dropdown-item" value="@city.Text">@city.Text</option>
+                }
+            }
+        </select>
+        
+        <select class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" name="arrival" asp-items="ViewBag.arrivalCitiesForDropDown">
+            <option>Select Arrival City</option>
+        </select>
+        <button type="submit" class="btn btn-primary" asp-action="SearchMenu">Search</button>
+        
+        
+            @if (ViewBag.FlightResults != null)
+            {
+                
+                
+                @foreach (var flight in ViewBag.FlightResults)
+                {
+                    if (ViewBag.count != null)
+                    {
+                        <h2>@ViewBag.count Flights Found</h2>
+                    }
+                    <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        Airline
+                    </th>
+                    
+                    <th>
+                        Departure City
+                    </th>
+                    <th>
+                        Arrival City
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                </tr>
+                </thead>
+                    <tbody>
+                    <tr>
+                        <td>@flight.Aircraft.AirlineName</td>
+                        <td>@flight.DepartureCity</td>
+                        <td>@flight.ArrivalCity</td>
+                        <td>$@flight.Price</td>
+                    </tr>
+                    </table>
+                }
+            }
+    </div>
+</form>
 </body>
 </html>

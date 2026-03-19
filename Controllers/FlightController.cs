@@ -26,11 +26,26 @@ public class FlightController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> SearchMenu(Flight flight)
+    public async Task<IActionResult> SearchMenu(string departure,string arrival)
     {
+        var departureCities = _context.Flights.Select(f => f.DepartureCity).Distinct().ToList();
+        
+        ViewBag.departureCitiesForDropDown = new SelectList(departureCities);
 
-        var CityList = _context.Flights.Select(flight => flight.DepartureCity).Distinct().ToList();
-        ViewBag.CitiesForDropDown = new SelectList(CityList);
+        if (!string.IsNullOrEmpty(departure))
+        {
+            var arrivalCity = _context.Flights.Where(f=> f.DepartureCity == departure).Select(f => f.ArrivalCity).Distinct().ToList();
+            ViewBag.arrivalCitiesForDropDown = new SelectList(arrivalCity);
+            ViewBag.SelectedDepartureCity = departure;
+        }
+
+        var final = _context.Flights.Include(a => a.Aircraft).Where(d => d.DepartureCity == departure).Where(a => a.ArrivalCity == arrival)
+            .ToList();
+        
+        ViewBag.FlightResults = final;
+        ViewBag.Count = final.Count;
+        
+        
         return View();
     }
 
