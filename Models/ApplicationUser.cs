@@ -11,7 +11,7 @@ public class ApplicationUser : IdentityUser
     [Required]
     public string LastName {get; set;}
     [Required]
-    public DateOnly DateOfBirthDate {get; set;}
+    public DateOnly DateOfBirth {get; set;}
     
     public string? ProfilePictureUrl { get; set; }
     

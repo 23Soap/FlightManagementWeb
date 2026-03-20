@@ -1,4 +1,4 @@
-﻿using FlightManagementWeb.Data;
+﻿
 using FlightManagementWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +7,15 @@ namespace FlightManagementWeb.Controllers;
 
 public class AccountController : Controller
 {
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
     
-    private readonly ApplicationDbContext _context;
 
-    public AccountController(ApplicationDbContext context)
+    public AccountController(UserManager<ApplicationUser> userManager,
+    SignInManager<ApplicationUser> signInManager)
     {
-        _context = context;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
     
     [HttpGet]
@@ -22,16 +25,34 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAccount(ApplicationUser appUser)
+    public async Task<IActionResult> Register(Register register)
+
     {
         if (ModelState.IsValid)
         {
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction();
+
+            var user = new ApplicationUser
+            {
+                UserName = register.Email,
+                Email = register.Email,
+                FirstName = register.FirstName,
+                LastName = register.LastName,
+                DateOfBirth = register.DateOfBirth
+            };
+            var final =  await _userManager.CreateAsync(user, register.Password);
+            if (final.Succeeded)
+            {
+                return RedirectToAction("Register", "Account");
+            }
+
+            foreach (var VARIABLE in final.Errors)
+            {
+                ModelState.AddModelError("", VARIABLE.Description);
+            }
         }
-        return  View();
+
+        return View(register);
     }
-    
-    
+
+
 }

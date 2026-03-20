@@ -3,71 +3,95 @@
 @{
     ViewData["SearchMenu"] = "Search Menu";
 }
-<html>
-<body>
 
-<form method="get" asp-action="SearchMenu">
-    <div class="dropdown">
-        <select class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"  name="departure" onchange="this.form.submit()">
-            <option >Select Departure City</option>
-            @foreach (var city in ViewBag.departureCitiesForDropDown)
-            {
-                if (city.Text == ViewBag.SelectedDepartureCity)
-                {
-                    <option class="dropdown-item" value="@city.Text" selected>@city.Text</option>
-                }
-                else
-                {
-                    <option class="dropdown-item" value="@city.Text">@city.Text</option>
-                }
-            }
-        </select>
-        
-        <select class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" name="arrival" asp-items="ViewBag.arrivalCitiesForDropDown">
-            <option>Select Arrival City</option>
-        </select>
-        <button type="submit" class="btn btn-primary" asp-action="SearchMenu">Search</button>
-        
-        
-            @if (ViewBag.FlightResults != null)
-            {
-                
-                
-                @foreach (var flight in ViewBag.FlightResults)
-                {
-                    if (ViewBag.count != null)
+<div class="tw-max-w-4xl tw-mx-auto tw-p-6">
+    <h1 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-6">Search Flights</h1>
+
+    <form method="get" asp-action="SearchMenu">
+        <div class="tw-flex tw-flex-wrap tw-gap-4 tw-mb-6 tw-items-end">
+
+            <!-- Departure City -->
+            <div>
+                <label class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Departure City</label>
+                <select name="departure" onchange="this.form.submit()"
+                    class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-48 tw-p-2.5">
+                    <option>Select Departure City</option>
+                    @foreach (var city in ViewBag.departureCitiesForDropDown)
                     {
-                        <h2>@ViewBag.count Flights Found</h2>
+                        if (city.Text == ViewBag.SelectedDepartureCity)
+                        {
+                            <option value="@city.Text" selected>@city.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@city.Text">@city.Text</option>
+                        }
                     }
-                    <table class="table">
-                <thead>
-                <tr>
-                    <th>
-                        Airline
-                    </th>
-                    
-                    <th>
-                        Departure City
-                    </th>
-                    <th>
-                        Arrival City
-                    </th>
-                    <th>
-                        Price
-                    </th>
-                </tr>
-                </thead>
+                </select>
+            </div>
+
+            <!-- Arrival City -->
+            <div>
+                <label class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Arrival City</label>
+                <select name="arrival" asp-items="ViewBag.arrivalCitiesForDropDown"
+                    class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-48 tw-p-2.5">
+                    <option>Select Arrival City</option>
+                </select>
+            </div>
+
+            <!-- Search Button -->
+            <div>
+                <button type="submit" asp-action="SearchMenu"
+                    class="tw-text-white tw-bg-blue-700 hover:tw-bg-blue-800 focus:tw-ring-4 focus:tw-ring-blue-300 tw-font-medium tw-rounded-lg tw-text-sm tw-px-5 tw-py-2.5 focus:tw-outline-none">
+                    Search
+                </button>
+            </div>
+        </div>
+
+        
+            
                     <tbody>
-                    <tr>
-                        <td>@flight.Aircraft.AirlineName</td>
-                        <td>@flight.DepartureCity</td>
-                        <td>@flight.ArrivalCity</td>
-                        <td>$@flight.Price</td>
-                    </tr>
-                    </table>
-                }
-            }
-    </div>
-</form>
-</body>
-</html>
+                        @foreach (var flight in ViewBag.FlightResults)
+                        {
+                            <!-- Results -->
+                            @if (ViewBag.FlightResults != null)
+                            {
+                                if (ViewBag.count != null)
+                                {
+                                    <div class="tw-flex tw-items-center tw-gap-2 tw-mb-4">
+                                        <span class="tw-bg-blue-100 tw-text-blue-800 tw-text-sm tw-font-medium tw-px-3 tw-py-1 tw-rounded-full">
+                                            @ViewBag.count Flights Found
+                                        </span>
+                                    </div>
+                                }
+                            }
+                            <div class="tw-relative tw-overflow-x-auto tw-shadow-md tw-rounded-lg">
+                                <table class="tw-w-full tw-text-sm tw-text-left tw-text-gray-500">
+                                    <thead class="tw-text-xs tw-text-gray-700 tw-uppercase tw-bg-gray-50">
+                                    <tr>
+                                        <th class="tw-px-6 tw-py-3">Airline</th>
+                                        <th class="tw-px-6 tw-py-3">Departure City</th>
+                                        <th class="tw-px-6 tw-py-3">Arrival City</th>
+                                        <th class="tw-px-6 tw-py-3">Price</th>
+                                    </tr>
+                                    </thead>
+                                    
+                                    <tr class="tw-bg-white tw-border-b hover:tw-bg-gray-50">
+                                        <td class="tw-px-6 tw-py-4 tw-font-medium tw-text-gray-900 tw-whitespace-nowrap">
+                                            @flight.Aircraft.AirlineName
+                                        </td>
+                                        <td class="tw-px-6 tw-py-4">@flight.DepartureCity</td>
+                                        <td class="tw-px-6 tw-py-4">@flight.ArrivalCity</td>
+                                        <td class="tw-px-6 tw-py-4">
+                                            <span class="tw-bg-green-100 tw-text-green-800 tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded">
+                                                $@flight.Price
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+                        }
+                    </tbody>
+    </form>
+</div>

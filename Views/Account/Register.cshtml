@@ -1,0 +1,47 @@
+﻿@model FlightManagementWeb.Models.Register
+
+@{
+    ViewData["Register"] = "Register";
+}
+@if (!ViewData.ModelState.IsValid)
+{
+    <ul>
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <li style="color:red">@error.ErrorMessage</li>
+        }
+    </ul>
+}
+<form asp-action="Register" asp-controller="Account" method="post">
+    <div class="tw-grid tw-gap-6 tw-mb-6 md:tw-grid-cols-2">
+        <div>
+            <label for="FirstName" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">First name</label>
+            <input type="text" asp-for="FirstName" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="John" />
+        </div>
+        <div>
+            <label for="last_name" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Last name</label>
+            <input type="text" asp-for="LastName" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="Doe" required />
+        </div>
+        
+    </div>
+    <div class="tw-mb-6">
+        <label for="Email" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Email address</label>
+        <input type="email" asp-for="Email" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="john.doe@company.com" required />
+    </div>
+    <div class="tw-mb-6">
+        <label for="Password" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Password</label>
+        <input type="password" asp-for="Password" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="•••••••••" required />
+    </div>
+    <div class="tw-mb-6">
+        <label for="ConfirmPassword" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Confirm password</label>
+        <input type="password" asp-for="ConfirmPassword" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="•••••••••" required />
+    </div>
+    
+    <div class="tw-mb-6">
+        <label class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Date of Birth</label>
+        <input type="date" asp-for="DateOfBirth" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5"/>
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+    
+    <button type="submit" asp-action="Register" class="tw-text-white tw-bg-blue-600 hover:tw-bg-blue-700 focus:tw-ring-4 focus:tw-ring-blue-300 tw-font-medium tw-rounded-lg tw-text-sm tw-px-5 tw-py-2.5 focus:tw-outline-none">Submit</button>
+</form>
