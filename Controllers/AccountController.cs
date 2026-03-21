@@ -1,5 +1,6 @@
 ﻿
 using FlightManagementWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,7 +43,8 @@ public class AccountController : Controller
             var final =  await _userManager.CreateAsync(user, register.Password);
             if (final.Succeeded)
             {
-                return RedirectToAction("Register", "Account");
+                await _signInManager.SignInAsync(user, false);
+                return RedirectToAction("Login", "Account");
             }
 
             foreach (var VARIABLE in final.Errors)
@@ -52,6 +54,46 @@ public class AccountController : Controller
         }
 
         return View(register);
+    }
+
+
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(Login login)
+    {
+        
+        if (ModelState.IsValid)
+        {
+            var final = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false, false);
+            if (final.Succeeded)
+            {
+                
+                return RedirectToAction("SearchMenu", "Flight");
+            }
+            else
+            {
+               ModelState.AddModelError("", "Invalid login attempt");
+            }
+        }
+        return View(login);
+    }
+
+    [HttpGet,Authorize]
+    public IActionResult Logout()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> LogOut()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
     }
 
 
