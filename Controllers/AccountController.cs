@@ -83,14 +83,8 @@ public class AccountController : Controller
         return View(login);
     }
 
-    [HttpGet,Authorize]
-    public IActionResult Logout()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> LogOut()
+    [HttpPost,Authorize]
+    public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
