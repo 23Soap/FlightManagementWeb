@@ -146,5 +146,14 @@ public class FlightController : Controller
         }
         return RedirectToAction(nameof(Admin));
     }
+
+    [HttpGet]
+    public IActionResult BuyFlight(int id)
+    {
+        var data = _context.Flights.Include(f => f.Aircraft)
+            .FirstOrDefault(p=> p.FlightId == id);
+        
+        return  View(data);
+    }
     
 }
