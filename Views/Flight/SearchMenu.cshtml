@@ -66,6 +66,7 @@
                                 <table class="tw-w-full tw-text-sm tw-text-left tw-text-gray-500">
                                     <thead class="tw-text-xs tw-text-gray-700 tw-uppercase tw-bg-gray-50">
                                     <tr>
+                                        <th hidden="hidden">id</th>
                                         <th class="tw-px-6 tw-py-3">Airline</th>
                                         <th class="tw-px-6 tw-py-3">Departure City</th>
                                         <th class="tw-px-6 tw-py-3">Arrival City</th>
@@ -74,6 +75,7 @@
                                     </thead>
                                     
                                     <tr class="tw-bg-white tw-border-b hover:tw-bg-gray-50">
+                                        <td hidden="hidden">@flight.FlightId</td>
                                         <td class="tw-px-6 tw-py-4 tw-font-medium tw-text-gray-900 tw-whitespace-nowrap">
                                             @flight.Aircraft.AirlineName
                                         </td>
@@ -84,6 +86,7 @@
                                                 $@flight.Price
                                             </span>
                                         </td>
+                                        <td><a type="submit" asp-action="BuyFlight" class="btn btn-primary" asp-route-id="@flight.FlightId">Buy</a></td>
                                     </tr>
                                     
                                 </table>
