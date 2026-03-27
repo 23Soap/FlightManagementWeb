@@ -13,7 +13,7 @@ public class AccountController : Controller
     
 
     public AccountController(UserManager<ApplicationUser> userManager,
-    SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -27,7 +27,6 @@ public class AccountController : Controller
 
     [HttpPost]
     public async Task<IActionResult> Register(Register register)
-
     {
         if (ModelState.IsValid)
         {
@@ -89,6 +88,4 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
-
-
 }

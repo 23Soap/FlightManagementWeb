@@ -26,7 +26,7 @@ public class FlightController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> SearchMenu(string departure,string arrival)
+    public async Task<IActionResult> SearchMenu(string departure,string arrival,int id)
     {
         var departureCities = _context.Flights
             .Select(f => f.DepartureCity)
@@ -148,12 +148,33 @@ public class FlightController : Controller
     }
 
     [HttpGet]
-    public IActionResult BuyFlight(int id)
+    public IActionResult BuyFlight(int? id)
     {
+        if (id == null)
+        {
+            return NotFound();
+        }
         var data = _context.Flights.Include(f => f.Aircraft)
             .FirstOrDefault(p=> p.FlightId == id);
+        if (data == null)
+        {
+            return NotFound();
+        }
         
         return  View(data);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> BuyFlight(int id)
+    {
+        var data = _context.Flights.SingleOrDefault(f => f.FlightId == id);
+            
+            if (data == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(BuyFlight));
+        return View(data);
     }
     
 }
