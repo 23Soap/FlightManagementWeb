@@ -1,4 +1,5 @@
 ﻿
+using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,7 @@ public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    
+    private readonly ApplicationDbContext _context;
 
     public AccountController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
@@ -30,7 +31,6 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-
             var user = new ApplicationUser
             {
                 UserName = register.Email,
@@ -88,4 +88,9 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
+    
+    
+    
+    
 }
+

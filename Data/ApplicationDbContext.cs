@@ -1,4 +1,5 @@
-﻿using FlightManagementWeb.Models;
+﻿
+using FlightManagementWeb.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,4 +14,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Flight> Flights { get; set; }
     public DbSet<Aircraft> Aircrafts { get; set; }
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<Purchase>  Purchases { get; set; }
 }

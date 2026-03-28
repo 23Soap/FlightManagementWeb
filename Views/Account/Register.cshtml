@@ -1,47 +1,54 @@
 ﻿@model FlightManagementWeb.Models.Register
 
 @{
-    ViewData["Register"] = "Register";
+    ViewData["Title"] = "Register";
 }
 
 <form asp-action="Register" asp-controller="Account" method="post">
-    <div class="tw-grid tw-gap-6 tw-mb-6 md:tw-grid-cols-2">
-        <div>
-            <label for="FirstName" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">First name</label>
-            <input type="text" asp-for="FirstName" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="John" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-        <div>
-            <label for="LastName" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Last name</label>
-            <input type="text" asp-for="LastName" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="Doe"  />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-        
+    <h1 class="h3 mb-3 fw-normal">Create account</h1>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div class="alert alert-danger py-2">@error.ErrorMessage</div>
+        }
+    }
+
+    <div class="form-floating">
+        <input asp-for="FirstName" type="text" class="form-control" placeholder="John"/>
+        <label asp-for="FirstName">First Name</label>
     </div>
-    <div class="tw-mb-6">
-        <label for="Email" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Email address</label>
-        <input type="email" asp-for="Email" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="john.doe@company.com"  />
-        <span class="text-danger" asp-validation-for="Email"></span>
-        </div>
-    <div class="tw-mb-6">
-        <label for="Password" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Password</label>
-        <input type="password" asp-for="Password" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="•••••••••"  />
-        <div id="passwordHelpBlock" class="form-text">
-            Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-        </div>
-        <span class="text-danger" asp-validation-for="Password"></span>
-        </div>
-    <div class="tw-mb-6">
-        <label for="ConfirmPassword" class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Confirm password</label>
-        <input type="password" asp-for="ConfirmPassword" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5" placeholder="•••••••••"  />
-        <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
-        </div>
-    
-    <div class="tw-mb-6">
-        <label class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Date of Birth</label>
-        <input type="date" asp-for="DateOfBirth" class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-blue-500 focus:tw-border-blue-500 tw-block tw-w-full tw-px-3 tw-py-2.5"/>
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+    <div class="form-floating">
+        <input asp-for="LastName" type="text" class="form-control" placeholder="Doe"/>
+        <label asp-for="LastName">Last Name</label>
     </div>
-    
-    <button type="submit" asp-action="Register" class="tw-text-white tw-bg-blue-600 hover:tw-bg-blue-700 focus:tw-ring-4 focus:tw-ring-blue-300 tw-font-medium tw-rounded-lg tw-text-sm tw-px-5 tw-py-2.5 focus:tw-outline-none">Submit</button>
+
+    <div class="form-floating">
+        <input asp-for="Email" type="email" class="form-control" placeholder="name@example.com"/>
+        <label asp-for="Email">Email</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Password" type="password" class="form-control" placeholder="Password"/>
+        <label asp-for="Password">Password</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password"/>
+        <label asp-for="ConfirmPassword">Confirm Password</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="DateOfBirth" type="date" class="form-control"/>
+        <label asp-for="DateOfBirth">Date of Birth</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-2 mt-3">Register</button>
+
+    <p class="mt-4 text-center text-body-secondary">
+        Already have an account? 
+        <a asp-controller="Account" asp-action="Login">Sign in</a>
+    </p>
 </form>
