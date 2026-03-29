@@ -1,0 +1,126 @@
+﻿@using Microsoft.EntityFrameworkCore
+@model FlightManagementWeb.Models.Purchase
+
+@{
+  ViewData["PurchaseConfirm"] = "Purchase Confirm";
+}
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <h1 class="h2">Checkout form</h1>
+    </div>
+
+    <div class="row g-5">
+
+      <!-- Sağ: Sepet -->
+      <div class="col-md-5 col-lg-4 order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">Your cart</span>
+          <span class="badge bg-primary rounded-pill">1</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">Flight Info</h6><hr/>
+              <small class="text-body-secondary">@Model.Flight.DepartureCity TO @Model.Flight.ArrivalCity</small><hr/>
+              <small class="text-body-secondary">@Model.Flight.Aircraft.AirlineName</small><hr/>
+              <small class="text-body-secondary">@Model.Flight.Aircraft.TailNumber</small><hr/>
+              <small class="text-body-secondary">@Model.Flight.Aircraft.AircraftModel</small><hr/>
+            </div>
+            <span class="text-body-secondary">$@Model.Flight.Price </span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">Total Tax </h6>
+              <small class="text-body-secondary">State Tax</small>
+            </div>
+            <span class="text-body-secondary">$@((Model.Flight.Price * 0.13m).ToString("F2"))</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+            
+          
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total (CAD)</span>
+            <strong>$@((Model.Flight.Price + Model.Flight.Price * 0.13m).ToString("F2"))</strong>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Sol: Form -->
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Billing address</h4>
+        <form class="needs-validation" asp-action="Purchase" asp-controller="Purchase" asp-route-id="FlightId" novalidate>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label name="FirstName" class="form-label">First name</label>
+              <input type="text" class="form-control" asp-for="FirstName">
+              <div class="invalid-feedback">Valid first name is required.</div>
+            </div>
+            <div class="col-sm-6">
+              <label asp-for="LastName" class="form-label">Last name</label>
+              <input type="text" class="form-control" asp-for="LastName">
+              <div class="invalid-feedback">Valid last name is required.</div>
+            </div>
+            <div class="col-12">
+              <label asp-for="Email" class="form-label">Email</label>
+              <input type="email" class="form-control" asp-for="Email" placeholder="you@example.com">
+            </div>
+            <div class="col-12">
+              <label asp-for="AdressLine1" class="form-label">Address</label>
+              <input type="text" class="form-control" asp-for="AdressLine1" placeholder="1234 Main St">
+              <div class="invalid-feedback">Please enter your address.</div>
+            </div>
+            <div class="col-md-5">
+              <label asp-for="Country" class="form-label">Country</label>
+              <select class="form-select" asp-for="Country">
+                <option value="">Choose...</option>
+                <option>Canada</option>
+              </select>
+              <div class="invalid-feedback">Please select a valid country.</div>
+            </div>
+            <div class="col-md-4">
+              <label asp-for="State" class="form-label">State</label>
+              <select class="form-select" asp-for="State">
+                <option value="">Choose...</option>
+                <option>Ontario</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label asp-for="ZipCode" class="form-label">Zip</label>
+              <input type="text" class="form-control" asp-for="ZipCode">
+              <div class="invalid-feedback">Zip code required.</div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <h4 class="mb-3">Payment</h4>
+          <div class="row gy-3">
+            <div class="col-md-6">
+              <label asp-for="NameOnTheCard" class="form-label">Name on card</label>
+              <input type="text" class="form-control" asp-for="NameOnTheCard">
+              <div class="invalid-feedback">Name on card is required</div>
+            </div>
+            <div class="col-md-6">
+              <label asp-for="CardNumber" class="form-label">Credit card number</label>
+              <input type="text" class="form-control" asp-for="CardNumber">
+              <div class="invalid-feedback">Credit card number is required</div>
+            </div>
+            <div class="col-md-3">
+              <label asp-for="Expiration" class="form-label">Expiration</label>
+              <input type="text" class="form-control" asp-for="Expiration">
+            </div>
+            <div class="col-md-3">
+              <label asp-for="CCVNumber" class="form-label">CVV</label>
+              <input type="text" class="form-control" asp-for="CCVNumber">
+            </div>
+          </div>
+
+          <hr class="my-4">
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Complate Checkout</button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+</div>
