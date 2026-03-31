@@ -1,18 +1,9 @@
-﻿@model TModel
-
-@{
-    Layout = null;
+﻿@{
+    ViewData["PurchaseComplete"] = "Purchase Completed";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
+<div class="container text-center py-5">
+    <h1 class="text-success">✓ Purchase Completed!</h1>
+    <p class="lead">Your ticket has been booked successfully.</p>
+    <a asp-action="SearchMenu" asp-controller="Flight" class="btn btn-primary">Back to Search</a>
 </div>
-</body>
-</html>

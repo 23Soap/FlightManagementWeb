@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FlightManagementWeb.Models;
 
 
 namespace FlightManagementWeb.Models;
 
 public class Purchase
 {
-        public Flight Flight { get; set; }
+        public Flight? Flight { get; set; }
         
         [Key]
         public int PurchaseNumber {get; set;}
-        public int FlightNumber {get; set;}
+        public int FlightId {get; set;}
         
         [Required(ErrorMessage =  "Please enter your first name.")]
         public string FirstName {get; set;}
@@ -28,7 +27,7 @@ public class Purchase
         [Required(ErrorMessage = "Please enter your Zip Code.")]
         public string ZipCode { get; set; }
         
-        public string SaveInformations {get; set;}
+        public string? SaveInformations {get; set;}
         public string CardNumber {get; set;}
         public string Expiration { get; set; }
         public string CCVNumber {get; set;}

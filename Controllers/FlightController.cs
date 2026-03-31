@@ -99,8 +99,10 @@ public class FlightController : Controller
         {
             return NotFound();
         }
-        
-        ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber", "AircraftName");
+
+        var availableAircrafts = _context.Aircrafts.
+            Where(a => !_context.Aircrafts.Any(f => f.AircraftId == a.AircraftId) || (a.AircraftId == data.AircraftId)).ToList();
+        ViewBag.AircraftList = new SelectList(availableAircrafts, "AircraftId", "TailNumber", "AircraftName");
         return View(data);
     }
 

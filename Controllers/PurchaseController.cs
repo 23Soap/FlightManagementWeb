@@ -33,7 +33,7 @@ public class PurchaseController : Controller
         var purchase = new Purchase
         {
             Flight = data,
-            FlightNumber = data.FlightId
+            FlightId = data.FlightId
         };
         
         return View(purchase);
@@ -43,12 +43,13 @@ public class PurchaseController : Controller
     public async Task<IActionResult> Purchase(int id,Purchase purchase)
     {
         
-        var userr = _context.Flights.SingleOrDefault(p => p.FlightId == id);
-
+        var userr = _context.Flights.Include(f => f.Aircraft).SingleOrDefault(f => f.FlightId == id);
+        
         if (userr == null)
         {
             return NotFound();
         }
+        
         if (ModelState.IsValid)
         {
             purchase.FirstName = purchase.FirstName.ToUpper();
@@ -62,15 +63,25 @@ public class PurchaseController : Controller
             purchase.NameOnTheCard = purchase.NameOnTheCard.ToUpper();
             purchase.State = purchase.State.ToUpper();
             purchase.ZipCode = purchase.ZipCode.ToUpper();
-
-            purchase.FlightNumber = id;
-            purchase.PurchaseNumber = purchase.PurchaseNumber;
+            purchase.FlightId = id;
             
+            do
+            {
+                Random rnd = new Random();
+                purchase.PurchaseNumber = rnd.Next(1000, 99999);
+            } while (_context.Purchases.Any(f => f.FlightId == purchase.FlightId));
+            
+            purchase.Flight = null;
             _context.Purchases.Add(purchase);
-            await  _context.SaveChangesAsync();
-            return RedirectToAction("SearchMenu","Flight");
+            await _context.SaveChangesAsync();
+            return RedirectToAction("PurchaseComplate","Purchase");
         }
-
+        purchase.Flight = userr;
         return View(purchase);
+    }
+    [HttpGet]
+    public IActionResult PurchaseComplate()
+    {
+        return View();
     }
 }
