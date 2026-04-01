@@ -1,5 +1,6 @@
 ﻿using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,11 @@ namespace FlightManagementWeb.Controllers;
 public class PurchaseController : Controller
 {
         public readonly ApplicationDbContext _context;
+        public readonly UserManager<ApplicationUser> _userManager;
 
-        public PurchaseController(ApplicationDbContext context)
+        public PurchaseController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
     
@@ -64,6 +67,8 @@ public class PurchaseController : Controller
             purchase.State = purchase.State.ToUpper();
             purchase.ZipCode = purchase.ZipCode.ToUpper();
             purchase.FlightId = id;
+            
+            purchase.UserId = _userManager.GetUserId(User);
             
             do
             {
