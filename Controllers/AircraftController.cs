@@ -1,9 +1,10 @@
 ﻿using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightManagementWeb.Controllers;
-
+[Authorize(Roles = "Admin")]
 public class AircraftController : Controller
 {
     private readonly ApplicationDbContext _context;

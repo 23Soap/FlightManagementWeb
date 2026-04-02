@@ -18,21 +18,36 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Identity (Kimlik) sistemi
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-{
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 9;
-}).AddEntityFrameworkStores<ApplicationDbContext>()
+    {
+        //options.Password.RequireDigit = true;
+        //options.Password.RequireLowercase = true;
+        //options.Password.RequireUppercase = true;
+        //options.Password.RequireNonAlphanumeric = true;
+        // options.Password.RequiredLength = 9;
+    }).AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
 
 
 // -----------------------------------------------------------
 
-var app = builder.Build(); // Duvar burada örüldü. Artık servis eklenemez.
+var app = builder.Build();
 
-// --- 2. PIPELINE / MIDDLEWARE AYARLARI ---
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    string[] roles = {"Admin","Manager","User"};
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+    
+}
 
 if (!app.Environment.IsDevelopment())
 {
@@ -45,6 +60,8 @@ app.UseRouting();
 
 // CRITICAL: Kimlik doğrulama, yetkilendirmeden ÖNCE gelmelidir.
 app.UseAuthentication(); 
+
+
 app.UseAuthorization();
 
 app.MapStaticAssets();
