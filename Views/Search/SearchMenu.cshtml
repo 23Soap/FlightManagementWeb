@@ -7,7 +7,7 @@
 <div class="tw-max-w-4xl tw-mx-auto tw-p-6">
     <h1 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-6">Search Flights</h1>
 
-    <form method="get" asp-action="SearchMenu">
+    <form method="get" asp-action="SearchMenu" asp-controller="Search">
         <div class="tw-flex tw-flex-wrap tw-gap-4 tw-mb-6 tw-items-end">
 
             <!-- Departure City -->
@@ -86,7 +86,7 @@
                                                 $@flight.Price
                                             </span>
                                         </td>
-                                        <td><a type="submit" asp-action="BuyFlight" class="btn btn-primary" asp-route-id="@flight.FlightId">Buy</a></td>
+                                        <td><a type="submit" asp-action="BuyFlight" asp-controller="Purchase" class="btn btn-primary" asp-route-id="@flight.FlightId">Buy</a></td>
                                     </tr>
                                     
                                 </table>

@@ -6,7 +6,6 @@ namespace FlightManagementWeb.Models;
 public class Purchase
 {
         public Flight? Flight { get; set; }
-        
         [Key]
         public int PurchaseNumber {get; set;}
         public int FlightId {get; set;}

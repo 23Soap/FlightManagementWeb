@@ -1,9 +1,21 @@
-﻿@model IEnumerable<FlightManagementWeb.Models.Flight>
+﻿@using Microsoft.AspNetCore.Identity
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model IEnumerable<FlightManagementWeb.Models.Flight>
 
 @{
     ViewData["admin"] = "admin";
 }
 <h1>Manage Flights</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <nav><h2>Hello Admin</h2></nav>
+}
+
 <p>
     <a asp-action="CreateFlight" class="btn btn-primary">Create a New Flight</a>
 </p>

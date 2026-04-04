@@ -16,6 +16,37 @@ public class PurchaseController : Controller
             _userManager = userManager;
             _context = context;
         }
+        
+        [HttpGet]
+        public IActionResult BuyFlight(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var data = _context.Flights.Include(f => f.Aircraft)
+                .FirstOrDefault(p=> p.FlightId == id);
+            if (data == null)
+            {
+                return NotFound();
+            }
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BuyFlight(int id)
+        {
+            var data = _context.Flights.Include(a => a.Aircraft)
+                .SingleOrDefault(f => f.FlightId == id);
+            
+            if (data == null)
+            {
+                return NotFound();
+            }
+
+            return View(data);
+        }
     
     [HttpGet]
     public IActionResult Purchase (int? id)
@@ -67,14 +98,14 @@ public class PurchaseController : Controller
             purchase.State = purchase.State.ToUpper();
             purchase.ZipCode = purchase.ZipCode.ToUpper();
             purchase.FlightId = id;
-            
             purchase.UserId = _userManager.GetUserId(User);
             
+            purchase.UserId = _userManager.GetUserId(User);
+            Random rnd = new Random();
             do
             {
-                Random rnd = new Random();
                 purchase.PurchaseNumber = rnd.Next(1000, 99999);
-            } while (_context.Purchases.Any(f => f.FlightId == purchase.FlightId));
+            } while (_context.Purchases.Any(f => f.PurchaseNumber == purchase.PurchaseNumber));
             
             purchase.Flight = null;
             _context.Purchases.Add(purchase);
@@ -89,4 +120,6 @@ public class PurchaseController : Controller
     {
         return View();
     }
+    
+    
 }

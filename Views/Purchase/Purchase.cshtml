@@ -113,11 +113,15 @@
             <div class="col-md-3">
               <label asp-for="CCVNumber" class="form-label">CVV</label>
               <input type="text" class="form-control" asp-for="CCVNumber">
+              @if (string.IsNullOrEmpty(Model.CCVNumber))
+              {
+                <span class="text-bg-warning">Warning</span>
+              }
             </div>
           </div>
 
           <hr class="my-4">
-          <button class="w-100 btn btn-primary btn-lg" type="submit"  >Complate Checkout</button>
+          <button class="w-100 btn btn-primary btn-lg" type="submit" >Complate Checkout</button>
         </form>
       </div>
 

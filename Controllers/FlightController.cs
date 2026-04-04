@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlightManagementWeb.Controllers;
-
+[Authorize(Roles = "Admin")]
 public class FlightController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -149,33 +150,7 @@ public class FlightController : Controller
         return RedirectToAction(nameof(Admin));
     }
 
-    [HttpGet]
-    public IActionResult BuyFlight(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-        var data = _context.Flights.Include(f => f.Aircraft)
-            .FirstOrDefault(p=> p.FlightId == id);
-        if (data == null)
-        {
-            return NotFound();
-        }
-        return  View(data);
-    }
 
-    [HttpPost]
-    public async Task<IActionResult> BuyFlight(int id)
-    {
-        var data = _context.Flights.SingleOrDefault(f => f.FlightId == id);
-            
-            if (data == null)
-            {
-                return NotFound();
-            }
-            return RedirectToAction(nameof(Purchase), "Purchase",new {id = id});
-    }
     
     
 }
