@@ -1,12 +1,33 @@
-﻿@model FlightManagementWeb.Controllers.ProfileController
+﻿@model FlightManagementWeb.Models.Profile
 
 @{
     ViewData["Profile"] = "Profile";
 }
-
-
-<body>
-<div>
-      
-</div>
-</body>
+<form method="get" asp-action="Profile" asp-controller="Profile">
+    <table></table>
+    <body>
+    <div>
+        <tr>
+            <th>
+                Airline Name
+            </th>
+            <th>From</th>
+            <th>To</th>
+            <th>Departure Date</th>
+        </tr>
+    </div>
+    <div>
+        @foreach (var Summary in Model.Purchase)
+        {
+            <tr>
+                <th>@Summary.Flight.Aircraft.AirlineName</th>
+                <th>@Summary.Flight.DepartureCity</th>
+                <th>@Summary.Flight.ArrivalCity</th>
+                <th>@Summary.Flight.DepartureDate</th>
+                <th><button>See Ticket</button></th>
+                <th><button>QR Code</button></th>
+            </tr>
+        }
+    </div>
+    </body>
+</form>

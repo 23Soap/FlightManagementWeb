@@ -72,7 +72,7 @@ public class AccountController : Controller
             if (final.Succeeded)
             {
                 
-                return RedirectToAction("Search", "Search");
+                return RedirectToAction("SearchMenu", "Search");
             }
             else
             {
