@@ -6,10 +6,15 @@
 
 <div class="tw-max-w-4xl tw-mx-auto tw-p-6">
     <h1 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-6">Search Flights</h1>
+    
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h2>Welcome Back @ViewBag.Welcome</h2>
+    }
 
     <form method="get" asp-action="SearchMenu" asp-controller="Search">
         <div class="tw-flex tw-flex-wrap tw-gap-4 tw-mb-6 tw-items-end">
-
+            
             <!-- Departure City -->
             <div>
                 <label class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900">Departure City</label>
@@ -83,8 +88,12 @@
                                         <td class="tw-px-6 tw-py-4">@flight.ArrivalCity</td>
                                         <td class="tw-px-6 tw-py-4">
                                             <span class="tw-bg-green-100 tw-text-green-800 tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded">
-                                                $@flight.Price
+                                                @flight.Price
                                             </span>
+                                            @if (flight.Aircraft.Capacity < 15)
+                                            {
+                                                <p class="tw-bg-red-100 tw-text-green-800 tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded">Hurry Up! Less then 15 Seats are available</p>
+                                            }
                                         </td>
                                         <td><a type="submit" asp-action="BuyFlight" asp-controller="Purchase" class="btn btn-primary" asp-route-id="@flight.FlightId">Buy</a></td>
                                     </tr>

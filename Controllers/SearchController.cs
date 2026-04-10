@@ -1,5 +1,6 @@
 ﻿using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +11,12 @@ public class SearchController : Controller
 {
     
     public readonly ApplicationDbContext _context;
+    public readonly UserManager<ApplicationUser> _userManager;
 
-    public SearchController(ApplicationDbContext context)
+    public SearchController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
 
     [HttpGet]
@@ -23,6 +26,9 @@ public class SearchController : Controller
             .Select(f => f.DepartureCity)
             .Distinct()
             .ToList();
+        
+        var userName = await _userManager.GetUserAsync(User);
+        ViewBag.Welcome = userName?.FirstName + " " + userName?.LastName;
         
         ViewBag.departureCitiesForDropDown = new SelectList(departureCities);
 
