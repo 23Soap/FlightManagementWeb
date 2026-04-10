@@ -10,7 +10,7 @@ namespace FlightManagementWeb.Controllers;
 public class ProfileController : Controller
 {
     private readonly ILogger<ProfileController> _logger;
-
+    
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager)

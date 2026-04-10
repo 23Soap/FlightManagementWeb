@@ -13,7 +13,8 @@
 
 @if (User.IsInRole("Admin"))
 {
-    <nav><h2>Hello Admin</h2></nav>
+    <nav><h2>Hello @ViewBag.AdminFName</h2></nav>
+
 }
 
 <p>
@@ -59,7 +60,10 @@
 
             <td>@flight.ArrivalCity</td>
             
-            <td>$@flight.Price"</td>
+            <td>$@flight.Price"@if (flight.Aircraft.Capacity < 15)
+                               {
+                                   <p>Hurry Up! Less then 15 Seats are available</p>
+                               }</td>
             <td><p><a asp-action="EditFlight" asp-route-id="@flight.FlightId" class="btn btn-warning">Edit Flight</a></p></td>
             <td><p><a asp-action="DeleteFlight" asp-route-id="@flight.FlightId" class="btn btn-danger">Delete Flight</a></p></td>
         </tr>

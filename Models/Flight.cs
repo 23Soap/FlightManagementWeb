@@ -10,6 +10,7 @@ public class Flight
     public int FlightId { get; set; }
     public int AircraftId { get; set; }
     public Aircraft? Aircraft { get; set; }
+    
 
     [Required]
     [Display(Name = "Departure City")]

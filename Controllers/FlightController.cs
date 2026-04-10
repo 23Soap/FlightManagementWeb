@@ -6,22 +6,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace FlightManagementWeb.Controllers;
 [Authorize(Roles = "Admin")]
 public class FlightController : Controller
 {
     private readonly ApplicationDbContext _context;
-
-    public FlightController(ApplicationDbContext context)
+    private readonly UserManager<ApplicationUser> _userManager;
+    public FlightController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
     
     
     [HttpGet]
     public async Task<IActionResult> Admin()
     {
+
+        var adminName = await _userManager.GetUserAsync(User);
+        ViewBag.AdminFName = adminName.FirstName;
         var list = await _context.Flights.Include(plane => plane.Aircraft).ToListAsync();
         return View(list);
     }
