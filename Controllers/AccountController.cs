@@ -40,8 +40,10 @@ public class AccountController : Controller
                 DateOfBirth = register.DateOfBirth
             };
             var final =  await _userManager.CreateAsync(user, register.Password);
+            
             if (final.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "User");
                 await _signInManager.SignInAsync(user, false);
                 return RedirectToAction("Login", "Account");
             }
