@@ -1,33 +1,62 @@
 ﻿@model FlightManagementWeb.Models.Profile
 
 @{
-    ViewData["Profile"] = "Profile";
+    ViewData["Title"] = "Profile";
 }
-<form method="get" asp-action="Profile" asp-controller="Profile">
-    <table></table>
-    <body>
-    <div>
-        <tr>
-            <th>
-                Airline Name
-            </th>
-            <th>From</th>
-            <th>To</th>
-            <th>Departure Date</th>
-        </tr>
+
+<div class="container mt-5">
+    
+    
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center p-4">
+                <!-- Profil Fotoğrafı -->
+                @if (Model.User.ProfilePictureUrl != null)
+                {
+                    <img src="@Model.User.ProfilePictureUrl" class="rounded-circle mb-3" width="100" height="100" alt="Profile Picture">
+                }
+                else
+                {
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="rounded-circle mb-3" width="100" height="100" alt="Profile Picture">
+                }
+                <h4>@Model.User.FirstName @Model.User.LastName</h4>
+                <p class="text-muted">@Model.User.Email</p>
+                <p class="text-muted">@Model.User.PhoneNumber</p>
+                <a asp-action="Edit" asp-controller="Profile" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
     </div>
-    <div>
-        @foreach (var Summary in Model.Purchase)
-        {
-            <tr>
-                <th>@Summary.Flight.Aircraft.AirlineName</th>
-                <th>@Summary.Flight.DepartureCity</th>
-                <th>@Summary.Flight.ArrivalCity</th>
-                <th>@Summary.Flight.DepartureDate</th>
-                <th><button>See Ticket</button></th>
-                <th><button>QR Code</button></th>
-            </tr>
-        }
+    
+    <div class="row">
+        <div class="col-12">
+            <h4>My Bookings</h4>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Airline</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Departure Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var purchase in Model.Purchase)
+                    {
+                        <tr>
+                            <td>@purchase.Flight.Aircraft.AirlineName</td>
+                            <td>@purchase.Flight.DepartureCity</td>
+                            <td>@purchase.Flight.ArrivalCity</td>
+                            <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">See Ticket</button>
+                                <button class="btn btn-danger btn-sm">QR Code</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-    </body>
-</form>
+
+</div>
