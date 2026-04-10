@@ -101,10 +101,11 @@ public class PurchaseController : Controller
             purchase.UserId = _userManager.GetUserId(User);
             
             purchase.UserId = _userManager.GetUserId(User);
-            Random rnd = new Random();
+            Guid newGuid = new Guid();
             do
             {
-                purchase.PurchaseNumber = rnd.Next(1000, 99999);
+                purchase.PurchaseNumber = Guid.NewGuid().GetHashCode();
+                
             } while (_context.Purchases.Any(f => f.PurchaseNumber == purchase.PurchaseNumber));
             
             purchase.Flight = null;
