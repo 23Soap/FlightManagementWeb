@@ -17,6 +17,58 @@
 
 }
 
+<form asp-action="Admin" asp-controller="Flight" method="get">
+    
+    <div class="container">
+        <div class="search-bar">
+            <div class="input-group">
+                <input type="text" class="form-control" name="email" placeholder="Search User By Email" aria-label="Search" aria-describedby="search-addon">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </div>
+    </div>
+    
+    @if (ViewBag.emailFinded != null)
+    {
+        var foundUser = ViewBag.emailFinded as FlightManagementWeb.Models.ApplicationUser;
+        var getRole = ViewBag.userRole as IList<string>;
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Full Name
+                </th>
+                <th>
+                    Role
+                </th>
+            </tr>
+            </thead>
+            
+            <tbody>
+            <tr>
+                <td>@foundUser.Email</td>
+                <td>@foundUser.FirstName @foundUser.LastName</td>
+                @foreach (var role in getRole)
+                {
+                    if (@role == "" || @role ==null)
+                    {
+                        <td>N/A</td>
+                    }
+                    else
+                    {
+                        <td>@role</td>
+                    }
+                }
+            </tr>
+            </tbody>
+        </table>
+    }
+</form>
+
+
 <p>
     <a asp-action="CreateFlight" class="btn btn-primary">Create a New Flight</a>
 </p>

@@ -9,24 +9,37 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace FlightManagementWeb.Controllers;
-[Authorize(Roles = "Admin")]
+
 public class FlightController : Controller
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
-    public FlightController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    private readonly RoleManager<IdentityRole> _roleManager;
+    public FlightController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
     
-    
+    [Authorize(Roles = "Admin")]
     [HttpGet]
-    public async Task<IActionResult> Admin()
+    public async Task<IActionResult> Admin(string email)
     {
 
         var adminName = await _userManager.GetUserAsync(User);
         ViewBag.AdminFName = adminName.FirstName;
+
+        if (!string.IsNullOrEmpty(email))
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user !=null)
+            {
+                ViewBag.emailFinded = user;
+                var getUserRole = await _userManager.GetRolesAsync(user);
+                ViewBag.userRole = getUserRole;
+            }
+        }
         var list = await _context.Flights.Include(plane => plane.Aircraft).ToListAsync();
         return View(list);
     }
@@ -62,7 +75,8 @@ public class FlightController : Controller
         ViewBag.SelectedArrivalCity = arrival;
         return View();
     }
-
+    
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult CreateFlight()
     {
@@ -73,7 +87,7 @@ public class FlightController : Controller
         ViewBag.AircraftList = new SelectList(availableAircrafts, "AircraftId", "TailNumber","AircraftName","AirlineName");
         return View();
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateFlight(Flight flight)
     {
@@ -96,7 +110,7 @@ public class FlightController : Controller
         
         return View(flight);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult EditFlight(int id)
     {
@@ -111,7 +125,7 @@ public class FlightController : Controller
         ViewBag.AircraftList = new SelectList(availableAircrafts, "AircraftId", "TailNumber", "AircraftName");
         return View(data);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> EditFlight(Flight flight)
     {
@@ -129,7 +143,7 @@ public class FlightController : Controller
         ViewBag.AircraftList = new SelectList(_context.Aircrafts, "AircraftId", "TailNumber", "AircraftName");
         return View(flight);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> DeleteFlight(int? id)
     {
@@ -141,7 +155,7 @@ public class FlightController : Controller
         }
         return View(data);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost, ActionName("DeleteFlight")]
     public async Task<IActionResult> DeleteFlight(int id)
     {
