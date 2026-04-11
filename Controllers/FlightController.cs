@@ -29,6 +29,9 @@ public class FlightController : Controller
 
         var adminName = await _userManager.GetUserAsync(User);
         ViewBag.AdminFName = adminName.FirstName;
+        
+        var allRoles = await _roleManager.Roles.ToListAsync();
+        ViewBag.allRoles = allRoles;
 
         if (!string.IsNullOrEmpty(email))
         {
@@ -42,6 +45,42 @@ public class FlightController : Controller
         }
         var list = await _context.Flights.Include(plane => plane.Aircraft).ToListAsync();
         return View(list);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ChangeRoles(string id,string email)
+    {
+        try
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            var user = await _userManager.FindByEmailAsync(email);
+            var currentRole = await _userManager.GetRolesAsync(user);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role With Id = {id} cannot be found";
+                return RedirectToAction("Admin");
+            }
+            else
+            {
+                await _userManager.RemoveFromRolesAsync(user, currentRole);
+                await _userManager.AddToRoleAsync(user, role.Name!);
+                return RedirectToAction("Admin");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        await _userManager.DeleteAsync(user!);
+        return RedirectToAction("Admin");
     }
 
     [HttpGet]
