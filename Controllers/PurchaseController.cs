@@ -109,6 +109,9 @@ public class PurchaseController : Controller
             } while (_context.Purchases.Any(f => f.PurchaseNumber == purchase.PurchaseNumber));
             
             purchase.Flight = null;
+            
+            userr.Aircraft.Capacity = -1;
+            _context.Update(userr.Aircraft);
             _context.Purchases.Add(purchase);
             await _context.SaveChangesAsync();
             return RedirectToAction("PurchaseComplate","Purchase");
