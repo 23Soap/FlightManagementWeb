@@ -90,12 +90,21 @@
                                             <span class="tw-bg-green-100 tw-text-green-800 tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded">
                                                 @flight.Price
                                             </span>
-                                            @if (flight.Aircraft.Capacity < 15)
+                                                @if (flight.Aircraft.Capacity <= 15 && flight.Aircraft.Capacity >= 0)
+                                                {
+                                                    <p class="tw-bg-red-100 tw-text-green-800 tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded" >Hurry Up! Only @flight.Aircraft.Capacity seats left!</p>
+                                                }
+                                        </td>
+                                        <td>
+                                            @if (flight.Aircraft.Capacity <= 0)
                                             {
-                                                <p class="tw-bg-red-100 tw-text-green-800 tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded">Hurry Up! Less then 15 Seats are available</p>
+                                            <p class="tw-bg-red-100 tw-text-red-800 tw-text-sm tw-font-semibold tw-px-2.5 tw-py-0.5 tw-rounded">Sold Out</p>
+                                            }
+                                            else
+                                            {
+                                            <a type="submit" asp-action="BuyFlight" asp-controller="Purchase" class="btn btn-primary" asp-route-id="@flight.FlightId">Buy</a>
                                             }
                                         </td>
-                                        <td><a type="submit" asp-action="BuyFlight" asp-controller="Purchase" class="btn btn-primary" asp-route-id="@flight.FlightId">Buy</a></td>
                                     </tr>
                                     
                                 </table>
