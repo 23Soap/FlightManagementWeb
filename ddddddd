@@ -1,0 +1,34 @@
+[33m312766e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m feat: add admin welcome message and fix profile page
+[33m0962c0a[m feat: add welcome message to SearchMenu for Users
+[33m50e4f09[m User who register will assign as a User
+[33m774a264[m Add bootstrap design to Profile Page.
+[33m17572a5[m AccountController Login RedirectToAction fixed.- Add ProfileController with Authorize attribute.Add Profile view displaying user info and purchase history(W/O Design)Fix ProfileController constructor assignment bug (_userManager = userManager)
+[33m701faad[m feat: fix identity setup, purchase flow, and search controller
+[33m96dd8eb[m Home removed from navbar
+[33m88deb40[m Add Role in Program.cs with admin,manager and User roles
+[33m670d3cb[m Add Profile.cshtml, fix Purchase model with userId
+[33maa32c64[m Add PurchaseController with GET/POST actions, add PurchaseComplate view, move Purchase view to Views/Purchase, add Flight navigation property to Purchase model, fix SaveInformations nullable, set Flight null before save to prevent EF conflict, add random PurchaseNumber with duplicate check using do-while, update BuyFlight POST to redirect to PurchaseController with id
+[33m5dd2cfb[m Fix EditFlight dropdown to exclude already assigned aircrafts
+[33m9d3b1bd[m Privacy removed from navbar
+[33mcb42420[m Add PurchaseController with GET/POST actions, move Purchase view to Views/Purchase, fix Purchase model navigation property, fix form asp-for bindings, fix price formatting
+[33m39db606[m add purchase model and checkout form,fix DbContext, added Booking migration
+[33m15ddc63[m typo fix
+[33m7b6ec7a[m Login and BuyFlights page design changed
+[33m90c71f6[m remove BuyFlight Button
+[33m0bcb8d8[m Fix flight.FlightId typo in SearchMenu
+[33m2112ae9[m add BuyFlight action to FlightController
+[33m133330e[m Remove password hint from Login form
+[33mcc2f281[m Add password requirements hint to Register form
+[33m88faa45[m fixed logout
+[33m30b1f7d[m Add Login and Logout to AccountController, fix Register warnings
+[33mf64f0a7[m[33m ([m[1;31morigin/login-register[m[33m, [m[1;32mlogin-register[m[33m)[m Account Controller => add Register and save the user to database, ApplicationDbContext -> add ApplicationUser, add design into Register.cshtml, add Flowbite into _Layout and using framework in SearchMenu and change design of the dropdown and tables
+[33m4e43933[m WIP: Add login and register
+[33m8e348f5[m Remove [Required] from AircraftId, change Flights as a nullable,move the Update out of if section in EditAircraft,add return to DeleteConfirmed
+[33m66e87d6[m Add departure/arrival cascading dropdown and flight results table to SearchMenu
+[33mb148e59[m .gitignore added and remove build artifacts
+[33maa980f3[m Flight -> Implemented Linq filtering for Aircraft assignments and added distinct for search menu
+[33ma5de0f2[m Flight - added edit and delete improvements. added binding Aircraft from database to dropdown
+[33mf289aa0[m AircraftController edit and delete added.Implemented ToUpper() for user inputs before saving to the database
+[33mff13875[m fixing Aircraft.added tail number and fixing user inputs for tail number
+[33m0a49b55[m update AircraftController
+[33m736c370[m first

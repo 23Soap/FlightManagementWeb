@@ -26,7 +26,6 @@ public class FlightController : Controller
     [HttpGet]
     public async Task<IActionResult> Admin(string email)
     {
-
         var adminName = await _userManager.GetUserAsync(User);
         ViewBag.AdminFName = adminName.FirstName;
         
@@ -41,6 +40,10 @@ public class FlightController : Controller
                 ViewBag.emailFinded = user;
                 var getUserRole = await _userManager.GetRolesAsync(user);
                 ViewBag.userRole = getUserRole;
+            }
+            else
+            {
+                TempData["UserAlert"] = "Please Enter a Valid E-Mail, Try again! ";
             }
         }
         var list = await _context.Flights.Include(plane => plane.Aircraft).ToListAsync();
@@ -65,6 +68,7 @@ public class FlightController : Controller
             {
                 await _userManager.RemoveFromRolesAsync(user, currentRole);
                 await _userManager.AddToRoleAsync(user, role.Name!);
+                TempData["RoleAlert"] = "User Role is Successfully Updated";
                 return RedirectToAction("Admin");
             }
         }
@@ -80,6 +84,7 @@ public class FlightController : Controller
     {
         var user = await _userManager.FindByIdAsync(id);
         await _userManager.DeleteAsync(user!);
+        TempData["DeleteAlert"] = "User is Deleted Successfully";
         return RedirectToAction("Admin");
     }
 

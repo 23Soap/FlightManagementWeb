@@ -1,7 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
-
-
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -29,7 +26,10 @@
         </div>
     </div>
 </form>   
-    @if (ViewBag.emailFinded != null)
+
+
+
+@if (ViewBag.emailFinded != null)
     {
         var foundUser = ViewBag.emailFinded as FlightManagementWeb.Models.ApplicationUser;
         var getRole = ViewBag.userRole as IList<string>;
@@ -86,8 +86,19 @@
             </tr>
             </tbody>
         </table>
+       }
+    @if (TempData["RoleAlert"] != null)
+    {
+        <p class="alert alert-success">@TempData["RoleAlert"]</p>
     }
-    
+    @if (TempData["DeleteAlert"] != null)
+    {
+        <p class="alert alert-danger">@TempData["DeleteAlert"]</p>
+    }
+    @if (TempData["UserAlert"] != null )
+    {
+        <p class="alert alert-warning">@TempData["UserAlert"]</p>
+    }
 <p>
     <a asp-action="CreateFlight" class="btn btn-primary">Create a New Flight</a>
 </p>
@@ -131,7 +142,11 @@
 
             <td>@flight.ArrivalCity</td>
             
-            <td>$@flight.Price"@if (flight.Aircraft.Capacity < 15)
+            <td>$@flight.Price"@if (flight.Aircraft.Capacity <= 0)
+                               {
+                                   
+                                   <p>Sold Out!</p>
+                               }else if (flight.Aircraft.Capacity <= 15)
                                {
                                    <p>Hurry Up! Less then 15 Seats are available</p>
                                }</td>
