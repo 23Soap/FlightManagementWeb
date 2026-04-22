@@ -1,5 +1,6 @@
 using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
+using FlightManagementWeb.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Identity (Kimlik) sistemi
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
+        
         //options.Password.RequireDigit = true;
         //options.Password.RequireLowercase = true;
         //options.Password.RequireUppercase = true;
@@ -27,7 +29,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     }).AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-
+builder.Services.AddScoped<PurchaseService>();
 
 // -----------------------------------------------------------
 
