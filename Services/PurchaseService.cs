@@ -1,8 +1,5 @@
-﻿using FlightManagementWeb.Controllers;
-using FlightManagementWeb.Data;
+﻿using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightManagementWeb.Services;
@@ -25,9 +22,14 @@ public class PurchaseService
             throw new InvalidOperationException("Flight not found");
         }
         
+        if (flight.Aircraft.Capacity <= 0)
+        {
+            throw new InvalidOperationException("No Seats AVAILABLE");
+        }
+        
         purchase.FirstName = purchase.FirstName.ToUpper();
         purchase.LastName = purchase.LastName.ToUpper();
-        purchase.Email = purchase.Email.ToUpper();
+        purchase.Email = purchase.Email.ToLower();
         purchase.AdressLine1 = purchase.AdressLine1.ToUpper();
         purchase.Country = purchase.Country.ToUpper();
         purchase.State = purchase.State.ToUpper();
@@ -40,7 +42,9 @@ public class PurchaseService
         {
             purchase.PurchaseNumber = Guid.NewGuid().GetHashCode();
         } while (await _context.Purchases.AnyAsync(p => p.PurchaseNumber == purchase.PurchaseNumber));
-        flight.Aircraft.Capacity =  -1;
+        
+        flight.Aircraft.Capacity = flight.Aircraft.Capacity -1;
+        
         _context.Aircrafts.Update(flight.Aircraft);
         
         _context.Purchases.Add(purchase);
