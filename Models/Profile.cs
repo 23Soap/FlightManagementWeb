@@ -2,6 +2,10 @@
 
 public class Profile
 {
+    // To display Users Informations
     public ApplicationUser? User { get; set; }
-    public List<Purchase>? Purchase { get; set; }
+    // To display Previous bought flights
+    public List<Purchase>? PreviousFlight { get; set; }
+    // To display Next flight
+    public List<Purchase>? NextFlight { get; set; }
 }
