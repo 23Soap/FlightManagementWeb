@@ -50,8 +50,6 @@ public class PurchaseService
         _context.Purchases.Add(purchase);
         await _context.SaveChangesAsync();
         
-        
-        
         return purchase;
     }
     
