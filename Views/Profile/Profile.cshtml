@@ -28,32 +28,130 @@
     
     <div class="row">
         <div class="col-12">
-            <h4>My Bookings</h4>
+            <h4>Check-In Today</h4>
             <table class="table table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Airline</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Departure Date</th>
-                        <th>Action</th>
-                    </tr>
+                <thead class="table-warning">
+                <tr>
+                    <th>Airline</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure Date</th>
+                    <th>Action</th>
+                </tr>
                 </thead>
-                <tbody>
-                    @foreach (var purchase in Model.Purchase)
+                @if (Model.TodayFlight != null && Model.TodayFlight.Any())
+                {
+                    @foreach (var purchase in Model.TodayFlight)
                     {
                         <tr>
                             <td>@purchase.Flight.Aircraft.AirlineName</td>
                             <td>@purchase.Flight.DepartureCity</td>
                             <td>@purchase.Flight.ArrivalCity</td>
-                            <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy")</td>
+                            <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
                             <td>
                                 <button class="btn btn-primary btn-sm">See Ticket</button>
                                 <button class="btn btn-danger btn-sm">QR Code</button>
                             </td>
                         </tr>
                     }
+                }
+                else
+                {
+                    <tr>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        </tr>
+                    
+                }
+            </table>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <h4>Next Flights</h4>
+            <table class="table table-striped">
+                <thead class="table-success ">
+                <tr>
+                    <th>Airline</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.NextFlight != null && Model.NextFlight.Any())
+                {
+                    @foreach (var purchase in Model.NextFlight)
+                    {
+                        <tr>
+                            <td>@purchase.Flight.Aircraft.AirlineName</td>
+                            <td>@purchase.Flight.DepartureCity</td>
+                            <td>@purchase.Flight.ArrivalCity</td>
+                            <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">See Ticket</button>
+                                <button class="btn btn-danger btn-sm">QR Code</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                }
+                
                 </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <h4>Previous Flights</h4>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th>Airline</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                @if (Model.PreviousFlight != null && Model.PreviousFlight.Any())
+                {
+                    @foreach (var purchase in Model.PreviousFlight)
+                    {
+                        <tr>
+                            <td>@purchase.Flight.Aircraft.AirlineName</td>
+                            <td>@purchase.Flight.DepartureCity</td>
+                            <td>@purchase.Flight.ArrivalCity</td>
+                            <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">See Ticket</button>
+                                <button class="btn btn-danger btn-sm">QR Code</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                }
             </table>
         </div>
     </div>
