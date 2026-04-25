@@ -29,10 +29,16 @@ public class ProfileController : Controller
             .Where(f => f.UserId == user.Id)
             .ToListAsync();
 
+        var previousFlight = final.Where(g => g.Flight.DepartureDate < DateTime.UtcNow).ToList();
+        var nextFlight = final.Where(g => g.Flight.DepartureDate >= DateTime.UtcNow).ToList();
+        var todayFlight = final.Where(g => g.Flight.DepartureDate == DateTime.UtcNow.Date).ToList();
+
         var viewModel = new Profile
         {
             User = user,
-            Purchase = final
+            PreviousFlight = previousFlight,
+            NextFlight = nextFlight,
+            TodayFlight = todayFlight
         };
         
         return View(viewModel);
