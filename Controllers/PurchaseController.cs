@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlightManagementWeb.Controllers;
+namespace FlightManagementWeb.Models.Purchases;
 
 public class PurchaseController : Controller
 {
@@ -94,6 +94,17 @@ public class PurchaseController : Controller
     private async Task LoadFlightAsync(Purchase purchase,int flightId)
     {
         purchase.Flight = await _context.Flights.Include(f => f.Aircraft).FirstOrDefaultAsync(f => f.FlightId == flightId);
+    }
+
+    public async Task<IActionResult> TicketDetails(int? id)
+    {
+        var details = await _context.Purchases.Include(f => f.Flight).ThenInclude(a => a.Aircraft).FirstOrDefaultAsync(p=>p.PurchaseNumber == id);
+        
+        if (details == null)
+        {
+            return NotFound();
+        }
+        return View("TicketDetails", details!);
     }
     
     

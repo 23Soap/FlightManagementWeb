@@ -1,0 +1,38 @@
+﻿@model FlightManagementWeb.Models.Purchase
+
+@{
+    ViewData["TicketDetails"] = "Ticket Details";
+}
+<!-- Modal içeriği (header, body, footer) -->
+
+<div class="modal-header">
+    <h5 class="modal-title">Ticket Details</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+    <h6>Passenger Information</h6>
+    <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    
+    <hr>
+    
+    <h6>Flight Information</h6>
+    <p><strong>From:</strong> @Model.Flight.DepartureCity</p>
+    <p><strong>To:</strong> @Model.Flight.ArrivalCity</p>
+    <p><strong>Date:</strong> @Model.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</p>
+    <p><strong>Airline:</strong> @Model.Flight.Aircraft.AirlineName</p>
+    
+    <hr>
+    
+    <h6>Booking Information</h6>
+    <p><strong>Booking Number:</strong> @Model.PurchaseNumber</p>
+    <p><strong>Price:</strong> $@Model.Flight.Price</p>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>
+
+
+
