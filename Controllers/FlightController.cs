@@ -39,6 +39,11 @@ public class FlightController : Controller
             {
                 ViewBag.emailFinded = user;
                 var getUserRole = await _userManager.GetRolesAsync(user);
+                var getUserPurchases = await _context.Purchases.Where(m => m.UserId == user.Id)
+                    .Include(f => f.Flight)
+                    .ThenInclude(a => a.Aircraft)
+                    .ToListAsync();
+                ViewBag.userPurchases = getUserPurchases;
                 ViewBag.userRole = getUserRole;
             }
             else
