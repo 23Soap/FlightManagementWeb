@@ -8,4 +8,6 @@ public class Profile
     public List<Purchase>? PreviousFlight { get; set; }
     // To display Next flight
     public List<Purchase>? NextFlight { get; set; }
+    // To display Todays Flight
+    public List<Purchase>? TodayFlight { get; set; }
 }
