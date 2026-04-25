@@ -1,6 +1,61 @@
-﻿@model FlightManagementWeb.Controllers.ProfileController
-
+﻿@model FlightManagementWeb.Models.EditProfile
 @{
-    ViewData["Edit"] = "Edit";
+    ViewData["EditProfile"] = "EditProfile";
 }
 
+<!DOCTYPE html>
+
+<html>
+<head>
+    
+    
+</head>
+<body>
+
+<form asp-action="EditProfile" method="post">
+        
+    <div class="form-group">
+        
+    </div>
+    <div class="form-group">
+        <th>
+            First Name
+        </th>
+        <input asp-for="FirstName" class="form-control"/>
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <th>
+            Last Name
+        </th>
+        <input asp-for="LastName" class="form-control">
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <th>
+            E-Mail
+        </th>
+        <input asp-for="Email" class="form-control">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-control">
+        <th>
+            Phone Number
+        </th>
+        <input asp-for="PhoneNumber" class="form-control">
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-control">
+        <th>
+            Date Of Birth
+        </th>
+        <input asp-for="DateOfBirth" type="date" class="form-control"/>
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+    <button type="submit" asp-action="EditProfile" class="btn btn-primary">Save</button>
+</form>
+<div>
+
+</div>
+</body>
+</html>
