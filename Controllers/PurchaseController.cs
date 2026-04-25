@@ -67,7 +67,7 @@ public class PurchaseController : Controller
     {
         if (!ModelState.IsValid)
         {
-            await  LoadFlightAsync(purchase, purchase.FlightId);
+            await  LoadFlightAsync(purchase, id);
             return View(purchase);
         }
         try
@@ -81,7 +81,7 @@ public class PurchaseController : Controller
         catch (InvalidOperationException e)
         {
             ModelState.AddModelError("", e.Message);
-            await LoadFlightAsync(purchase, purchase.FlightId);
+            await LoadFlightAsync(purchase, id);
             return View(purchase);
         }
     }
@@ -93,7 +93,7 @@ public class PurchaseController : Controller
     
     private async Task LoadFlightAsync(Purchase purchase,int flightId)
     {
-        purchase.Flight = await _context.Flights.Include(f => f.Aircraft).FirstOrDefaultAsync(f => f.FlightId == purchase.FlightId);
+        purchase.Flight = await _context.Flights.Include(f => f.Aircraft).FirstOrDefaultAsync(f => f.FlightId == flightId);
     }
     
     
