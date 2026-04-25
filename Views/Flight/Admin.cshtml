@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -30,75 +31,103 @@
 
 
 @if (ViewBag.emailFinded != null)
-    {
-        var foundUser = ViewBag.emailFinded as FlightManagementWeb.Models.ApplicationUser;
-        var getRole = ViewBag.userRole as IList<string>;
-        <table class="table">
-            <thead>
-            <tr>
-                <th>
-                    Email
-                </th>
-                <th>
-                    Full Name
-                </th>
-                <th>
-                    Role
-                </th>
-            </tr>
-            </thead>
-            
-            <tbody>
-            <tr>
-                <td>@foundUser.Email</td>
-                <td>@foundUser.FirstName @foundUser.LastName</td>
-                @foreach (var role in getRole)
+{
+    var userPurchases = (List<FlightManagementWeb.Models.Purchase>)ViewBag.userPurchases;
+    var foundUser = ViewBag.emailFinded as FlightManagementWeb.Models.ApplicationUser;
+    var getRole = ViewBag.userRole as IList<string>;
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Email
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Role
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <td>@foundUser.Email</td>
+            <td>@foundUser.FirstName @foundUser.LastName</td>
+            @foreach (var role in getRole)
+            {
+                if (@role == "" || @role == null)
                 {
-                    if (@role == "" || @role ==null)
-                    {
-                        <td>N/A</td>
-                    }
-                    else
-                    {
-                        <td>@role</td>
-                    }
+                    <td>N/A</td>
                 }
-                
-                <td>
-                    <form method="post" asp-action="ChangeRoles" asp-controller="Flight">
-                        <input type="hidden" name="email" value="@foundUser.Email"/>
-                        <select name="id" class="form-select">
-                            <option value="">Select Role</option>
-                            @foreach (var role in ViewBag.allRoles as List<IdentityRole>)
-                            {
-                                <option value="@role.Id">@role.Name</option>
-                            }
-                        </select>
-                        <button type="submit" class="btn btn-warning btn-sm">Change Role</button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post" asp-action="DeleteUser" asp-controller="Flight">
-                        <input type="hidden" name="id" value="@foundUser.Id"/>
-                        <button type="submit" class="btn btn-danger btn-sm">Delete User</button>
-                    </form>
-                </td>
+                else
+                {
+                    <td>@role</td>
+                }
+            }
+            <td>
+                <form method="post" asp-action="ChangeRoles" asp-controller="Flight">
+                    <input type="hidden" name="email" value="@foundUser.Email"/>
+                    <select name="id" class="form-select">
+                        <option value="">Select Role</option>
+                        @foreach (var role in ViewBag.allRoles as List<IdentityRole>)
+                        {
+                            <option value="@role.Id">@role.Name</option>
+                        }
+                    </select>
+                    <button type="submit" class="btn btn-warning btn-sm">Change Role</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" asp-action="DeleteUser" asp-controller="Flight">
+                    <input type="hidden" name="id" value="@foundUser.Id"/>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete User</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Flight</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Departure Date</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var purchase in userPurchases)
+        {
+            <tr>
+                <td>@purchase.Flight.Aircraft.AirlineName</td>
+                <td>@purchase.Flight.DepartureCity</td>
+                <td>@purchase.Flight.ArrivalCity</td>
+                <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
+                <td>$@purchase.Flight.Price</td>
+                <td><button  class="btn btn-danger btn-sm">Return Ticket</button></td>
             </tr>
-            </tbody>
-        </table>
-       }
+        }
+        </tbody>
+    </table>
+
     @if (TempData["RoleAlert"] != null)
     {
         <p class="alert alert-success">@TempData["RoleAlert"]</p>
     }
+
     @if (TempData["DeleteAlert"] != null)
     {
         <p class="alert alert-danger">@TempData["DeleteAlert"]</p>
     }
-    @if (TempData["UserAlert"] != null )
+
+    @if (TempData["UserAlert"] != null)
     {
         <p class="alert alert-warning">@TempData["UserAlert"]</p>
     }
+}
 <p>
     <a asp-action="CreateFlight" class="btn btn-primary">Create a New Flight</a>
 </p>
