@@ -21,7 +21,9 @@
                 <h4>@Model.User.FirstName @Model.User.LastName</h4>
                 <p class="text-muted">@Model.User.Email</p>
                 <p class="text-muted">@Model.User.PhoneNumber</p>
-                <a asp-action="Edit" asp-controller="Profile" class="btn btn-primary">Edit</a>
+                <p class="text-muted">@Model.User.DateOfBirth</p>
+                <form method="get" asp-action="EditProfile" asp-controller="Profile"><button type="submit" asp-action="EditProfile" class="btn btn-primary">Edit</button></form>
+                
             </div>
         </div>
     </div>
@@ -49,7 +51,12 @@
                             <td>@purchase.Flight.ArrivalCity</td>
                             <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
                             <td>
-                                <button class="btn btn-primary btn-sm">See Ticket</button>
+                                <a asp-action="TicketDetails" 
+                                   asp-controller="Purchase" 
+                                   asp-route-id="@purchase.PurchaseNumber"
+                                   class="btn btn-primary btn-sm">
+                                    See Ticket Details
+                                </a>
                                 <button class="btn btn-danger btn-sm">QR Code</button>
                             </td>
                         </tr>
@@ -93,7 +100,12 @@
                             <td>@purchase.Flight.ArrivalCity</td>
                             <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
                             <td>
-                                <button class="btn btn-primary btn-sm">See Ticket</button>
+                                <a asp-action="TicketDetails" 
+                                   asp-controller="Purchase" 
+                                   asp-route-id="@purchase.PurchaseNumber"
+                                   class="btn btn-primary btn-sm">
+                                    See Ticket Details
+                                </a>
                                 <button class="btn btn-danger btn-sm">QR Code</button>
                             </td>
                         </tr>
@@ -137,7 +149,12 @@
                             <td>@purchase.Flight.ArrivalCity</td>
                             <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
                             <td>
-                                <button class="btn btn-primary btn-sm">See Ticket</button>
+                                <a asp-action="TicketDetails" 
+                                   asp-controller="Purchase" 
+                                   asp-route-id="@purchase.PurchaseNumber"
+                                   class="btn btn-primary btn-sm">
+                                    See Ticket Details
+                                </a>
                                 <button class="btn btn-danger btn-sm">QR Code</button>
                             </td>
                         </tr>
