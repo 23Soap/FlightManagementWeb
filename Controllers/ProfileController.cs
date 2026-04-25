@@ -43,4 +43,53 @@ public class ProfileController : Controller
         
         return View(viewModel);
     }
+    [HttpGet, Authorize(Roles = "User,Admin,Manager")]
+    public async Task<IActionResult> EditProfile()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+           return NotFound();
+        }
+        
+        var viewModel = new EditProfile
+        {
+            FirstName = user.FirstName, 
+            LastName = user.LastName,        
+            Email = user.Email,              
+            PhoneNumber = user.PhoneNumber,  
+            DateOfBirth = user.DateOfBirth,  
+            ProfilePictureUrl = user.ProfilePictureUrl  
+        };
+        return View(viewModel);
+    }
+    
+    [HttpPost, Authorize(Roles = "User,Admin,Manager")]
+    public async Task<IActionResult> EditProfile(EditProfile editProfile)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(editProfile);
+        }
+
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+            user.FirstName = editProfile.FirstName;
+            user.LastName = editProfile.LastName;
+            user.Email = editProfile.Email;
+            user.PhoneNumber = editProfile.PhoneNumber;
+            user.DateOfBirth = editProfile.DateOfBirth;
+            user.ProfilePictureUrl = editProfile.ProfilePictureUrl;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Profile");
+            }
+            return View(editProfile);
+    }
 }
