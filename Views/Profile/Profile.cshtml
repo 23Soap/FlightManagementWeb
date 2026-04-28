@@ -57,7 +57,7 @@
                                    class="btn btn-primary btn-sm">
                                     See Ticket Details
                                 </a>
-                                <button class="btn btn-danger btn-sm">QR Code</button>
+                                <button class="btn btn-danger btn-sm" asp-action="QRCode" asp-controller="Purchase" asp-route-id="@purchase.PurchaseNumber" type="submit">QR Code</button>
                             </td>
                         </tr>
                     }
@@ -69,6 +69,7 @@
                         <td>N/A</td>
                         <td>N/A</td>
                         <td>N/A</td>
+                        <td></td>
                         </tr>
                     
                 }
@@ -106,7 +107,7 @@
                                    class="btn btn-primary btn-sm">
                                     See Ticket Details
                                 </a>
-                                <button class="btn btn-danger btn-sm">QR Code</button>
+                                <A class="btn btn-danger btn-sm" asp-action="QRCode" asp-controller="Purchase" asp-route-id="@purchase.PurchaseNumber" type="submit">QR Code</A>
                             </td>
                         </tr>
                     }
@@ -118,6 +119,7 @@
                         <td>N/A</td>
                         <td>N/A</td>
                         <td>N/A</td>
+                        <td></td>
                     </tr>
                 }
                 
@@ -155,7 +157,15 @@
                                    class="btn btn-primary btn-sm">
                                     See Ticket Details
                                 </a>
-                                <button class="btn btn-danger btn-sm">QR Code</button>
+                                @if (purchase.Flight.DepartureDate < DateTime.Today)
+                                {
+                                    <td></td>
+                                }
+                                else
+                                {
+                                    <A class="btn btn-danger btn-sm" asp-action="QRCode" asp-controller="Purchase" asp-route-id="@purchase.PurchaseNumber" type="submit">QR Code</A>
+                                }
+                                
                             </td>
                         </tr>
                     }
@@ -167,6 +177,7 @@
                         <td>N/A</td>
                         <td>N/A</td>
                         <td>N/A</td>
+                        <td></td>
                     </tr>
                 }
             </table>

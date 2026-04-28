@@ -107,7 +107,15 @@
                 <td>@purchase.Flight.ArrivalCity</td>
                 <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
                 <td>$@purchase.Flight.Price</td>
-                <td><button  class="btn btn-danger btn-sm">Return Ticket</button></td>
+                @if (purchase.Flight.DepartureDate < DateTime.Today)
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td><button  class="btn btn-danger btn-sm">Return Ticket</button></td>
+                }
+                
             </tr>
         }
         </tbody>
