@@ -40,7 +40,7 @@ public class PurchaseService
         purchase.Flight = null;
         do
         {
-            purchase.PurchaseNumber = Guid.NewGuid().GetHashCode();
+            purchase.PurchaseNumber = Math.Abs(Guid.NewGuid().GetHashCode());
         } while (await _context.Purchases.AnyAsync(p => p.PurchaseNumber == purchase.PurchaseNumber));
         
         flight.Aircraft.Capacity = flight.Aircraft.Capacity -1;

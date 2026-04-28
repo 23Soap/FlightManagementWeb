@@ -113,28 +113,30 @@
                 }
                 else
                 {
-                    <td><button  class="btn btn-danger btn-sm">Return Ticket</button></td>
+                    <form asp-action="RefundTicket" asp-controller="Flight" method="post">
+                        <td><button  class="btn btn-danger btn-sm" asp-action="RefundTicket" asp-controller="Flight" asp-route-id="@purchase.PurchaseNumber" type="submit">Return Ticket</button></td>
+                    </form>
+                   
                 }
                 
             </tr>
         }
         </tbody>
     </table>
+}
+@if (TempData["RoleAlert"] != null)
+{
+    <p class="alert alert-success">@TempData["RoleAlert"]</p>
+}
 
-    @if (TempData["RoleAlert"] != null)
-    {
-        <p class="alert alert-success">@TempData["RoleAlert"]</p>
-    }
+@if (TempData["DeleteAlert"] != null)
+{
+    <p class="alert alert-danger">@TempData["DeleteAlert"]</p>
+}
 
-    @if (TempData["DeleteAlert"] != null)
-    {
-        <p class="alert alert-danger">@TempData["DeleteAlert"]</p>
-    }
-
-    @if (TempData["UserAlert"] != null)
-    {
-        <p class="alert alert-warning">@TempData["UserAlert"]</p>
-    }
+@if (TempData["UserAlert"] != null)
+{
+    <p class="alert alert-warning">@TempData["UserAlert"]</p>
 }
 <p>
     <a asp-action="CreateFlight" class="btn btn-primary">Create a New Flight</a>

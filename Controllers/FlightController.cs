@@ -93,6 +93,22 @@ public class FlightController : Controller
         return RedirectToAction("Admin");
     }
 
+    [HttpPost]
+    public async Task<IActionResult> RefundTicket(int id)
+    {
+        var ticket = await _context.Purchases.Include(p => p.Flight.Aircraft)
+            .SingleOrDefaultAsync(a => a.PurchaseNumber == id);
+        if (ticket == null)
+        {
+            return NotFound();
+        }
+        
+        ticket.Flight.Aircraft.Capacity +=1;
+        _context.Purchases.Remove(ticket);
+        await _context.SaveChangesAsync();
+        return  RedirectToAction("Admin");
+    }
+
     [HttpGet]
     public async Task<IActionResult> SearchMenu(string departure,string arrival,int id)
     {
