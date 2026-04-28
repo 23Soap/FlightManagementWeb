@@ -4,6 +4,7 @@ using FlightManagementWeb.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QRCoder;
 
 namespace FlightManagementWeb.Models.Purchases;
 
@@ -106,6 +107,41 @@ public class PurchaseController : Controller
         }
         return View("TicketDetails", details!);
     }
-    
-    
+
+    [HttpGet]
+    public async Task<IActionResult> QRCode(int? id)
+
+    {
+
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var info = await _context.Purchases.Include(p => p.Flight).ThenInclude(a => a.Aircraft)
+            .FirstOrDefaultAsync(p => p.PurchaseNumber == id);
+        if (info == null)
+        {
+            return NotFound();
+        }
+
+        
+        using var qrGenerator = new QRCodeGenerator();
+        using var qrCodeData = qrGenerator.CreateQrCode(
+            info.PurchaseNumber.ToString(),  
+            QRCodeGenerator.ECCLevel.Q
+        );
+
+        var qrCode = new PngByteQRCode(qrCodeData);
+        byte[] qrCodeImage = qrCode.GetGraphic(20);  
+        
+        string qrCodeBase64 = Convert.ToBase64String(qrCodeImage);
+        
+        ViewBag.QRCodeImage = qrCodeBase64;
+        ViewBag.PurchaseNumber = info.PurchaseNumber;
+        return View();
+
+    }
+
+
 }
