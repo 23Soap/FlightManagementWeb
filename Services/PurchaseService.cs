@@ -1,5 +1,6 @@
 ﻿using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightManagementWeb.Services;
@@ -51,6 +52,30 @@ public class PurchaseService
         await _context.SaveChangesAsync();
         
         return purchase;
+    }
+
+    public async Task ArchiveOldFlights()
+    {
+        var allPurchases = await _context.Purchases.Include(f => f.Flight).ThenInclude(a => a.Aircraft).Where(c => c.Flight.DepartureDate < DateTime.UtcNow)
+            .ToListAsync();
+
+        foreach (var get in allPurchases )
+        {
+            var archivePurchased = new ArchivedPurchase
+            {
+                OriginalPurchaseNumber = get.PurchaseNumber,
+                ArchivedDate = DateTime.UtcNow,
+                FlightId = get.Flight.FlightId,
+                UserId = get.UserId,
+                FirstName = get.FirstName,
+                LastName = get.LastName,
+                Email = get.Email,
+            };
+            _context.ArchivedPurchases.Add(archivePurchased);
+            _context.Purchases.Remove(get);
+            get.Flight.Aircraft.Capacity += 1;
+        }
+       await _context.SaveChangesAsync();
     }
     
     
