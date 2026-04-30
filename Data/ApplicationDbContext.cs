@@ -15,4 +15,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Aircraft> Aircrafts { get; set; }
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public DbSet<Purchase>  Purchases { get; set; }
+    public DbSet<ArchivedPurchase>  ArchivedPurchases { get; set; }
 }
