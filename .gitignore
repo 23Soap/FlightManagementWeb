@@ -56,4 +56,7 @@ wwwroot/lib/
 
 *.png
 *.jpg
-*.jpeg
+*.jpegappsettings.json
+appsettings.Development.json
+appsettings.json
+appsettings.Development.json
