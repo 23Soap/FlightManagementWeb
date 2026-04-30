@@ -153,7 +153,7 @@
                             <td>
                                 <a asp-action="TicketDetails" 
                                    asp-controller="Purchase" 
-                                   asp-route-id="@purchase.PurchaseNumber"
+                                   asp-route-id="@purchase.OriginalPurchaseNumber"
                                    class="btn btn-primary btn-sm">
                                     See Ticket Details
                                 </a>
@@ -163,7 +163,7 @@
                                 }
                                 else
                                 {
-                                    <A class="btn btn-danger btn-sm" asp-action="QRCode" asp-controller="Purchase" asp-route-id="@purchase.PurchaseNumber" type="submit">QR Code</A>
+                                    <A class="btn btn-danger btn-sm" asp-action="QRCode" asp-controller="Purchase" asp-route-id="@purchase.OriginalPurchaseNumber" type="submit">QR Code</A>
                                 }
                                 
                             </td>
