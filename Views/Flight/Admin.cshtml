@@ -2,7 +2,7 @@
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
+@using FlightManagementWeb.Models
 @model IEnumerable<FlightManagementWeb.Models.Flight>
 
 @{
@@ -35,6 +35,7 @@
     var userPurchases = (List<FlightManagementWeb.Models.Purchase>)ViewBag.userPurchases;
     var foundUser = ViewBag.emailFinded as FlightManagementWeb.Models.ApplicationUser;
     var getRole = ViewBag.userRole as IList<string>;
+    var archivedFlights = ViewBag.archivedFlights;
     <table class="table">
         <thead>
         <tr>
@@ -107,20 +108,25 @@
                 <td>@purchase.Flight.ArrivalCity</td>
                 <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
                 <td>$@purchase.Flight.Price</td>
-                @if (purchase.Flight.DepartureDate < DateTime.Today)
-                {
-                    <td></td>
-                }
-                else
-                {
-                    <form asp-action="RefundTicket" asp-controller="Flight" method="post">
-                        <td><button  class="btn btn-danger btn-sm" asp-action="RefundTicket" asp-controller="Flight" asp-route-id="@purchase.PurchaseNumber" type="submit">Return Ticket</button></td>
-                    </form>
-                   
-                }
+                
+                <form asp-action="RefundTicket" asp-controller="Flight" method="post">
+                    <td><button  class="btn btn-danger btn-sm" asp-action="RefundTicket" asp-controller="Flight" asp-route-id="@purchase.PurchaseNumber" type="submit">Return Ticket</button></td>
+                </form>
                 
             </tr>
         }
+    @foreach (var oldPurchase in archivedFlights)
+    {
+        <tr>
+            <td>@oldPurchase.Flight.Aircraft.AirlineName</td>
+            <td>@oldPurchase.Flight.DepartureCity</td>
+            <td>@oldPurchase.Flight.ArrivalCity</td>
+            <td>@oldPurchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
+            <td>$@oldPurchase.Flight.Price</td>
+    
+            <td></td>
+        </tr>
+    }
         </tbody>
     </table>
 }
@@ -164,8 +170,6 @@
         <th>
             Action
         </th>
-
-
     </tr>
     </thead>
     <tbody>

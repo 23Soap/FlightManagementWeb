@@ -151,21 +151,12 @@
                             <td>@purchase.Flight.ArrivalCity</td>
                             <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
                             <td>
-                                <a asp-action="TicketDetails" 
+                                <a asp-action="ArchivedDetails" 
                                    asp-controller="Purchase" 
                                    asp-route-id="@purchase.OriginalPurchaseNumber"
                                    class="btn btn-primary btn-sm">
                                     See Ticket Details
                                 </a>
-                                @if (purchase.Flight.DepartureDate < DateTime.Today)
-                                {
-                                    <td></td>
-                                }
-                                else
-                                {
-                                    <A class="btn btn-danger btn-sm" asp-action="QRCode" asp-controller="Purchase" asp-route-id="@purchase.OriginalPurchaseNumber" type="submit">QR Code</A>
-                                }
-                                
                             </td>
                         </tr>
                     }
