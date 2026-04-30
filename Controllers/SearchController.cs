@@ -23,6 +23,7 @@ public class SearchController : Controller
     public async Task<IActionResult> SearchMenu(string departure,string arrival,int id)
     {
         var departureCities = _context.Flights
+            .Where(f => f.DepartureDate > DateTime.UtcNow)
             .Select(f => f.DepartureCity)
             .Distinct()
             .ToList();
@@ -36,6 +37,7 @@ public class SearchController : Controller
         {
             var arrivalCity = _context.Flights
                 .Where(f=> f.DepartureCity == departure)
+                .Where(f=> f.DepartureDate > DateTime.UtcNow)
                 .Select(f => f.ArrivalCity)
                 .Distinct()
                 .ToList();
