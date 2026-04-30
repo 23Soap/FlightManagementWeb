@@ -1,18 +1,38 @@
-﻿@model TModel
+﻿@model FlightManagementWeb.Models.ArchivedPurchase
 
 @{
-    Layout = null;
+    ViewData["ArchivedTicketDetails"] = "Archived Ticket Details";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
+<div class="container mt-5">
+    <h2>Ticket Details</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5>Passenger Information</h5>
+            <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            
+            <hr>
+            
+            <h5>Flight Information</h5>
+            <p><strong>From:</strong> @Model.Flight.DepartureCity</p>
+            <p><strong>To:</strong> @Model.Flight.ArrivalCity</p>
+            <p><strong>Date:</strong> @Model.Flight.DepartureDate.ToString("MMM dd, yyyy")</p>
+            <p><strong>Time:</strong> @Model.Flight.DepartureDate.ToString("HH:mm")</p>
+            <p><strong>Airline:</strong> @Model.Flight.Aircraft.AirlineName</p>
+            
+            <hr>
+            
+            <h5>Booking Information</h5>
+            <p><strong>Booking Number:</strong> @Model.OriginalPurchaseNumber</p>
+            <p><strong>Price:</strong> $@Model.Flight.Price</p>
+            
+            <hr>
+            <h5>Aircraft Information</h5>
+            <p><strong>Aircraft Model:</strong> @Model.Flight.Aircraft.AircraftModel</p>
+            <p><strong>Tail Number:</strong> @Model.Flight.Aircraft.TailNumber</p>
+        </div>
+    </div>
+    
+    <a asp-action="Profile" asp-controller="Profile" class="btn btn-secondary mt-3">Back to Profile</a>
 </div>
-</body>
-</html>

@@ -108,6 +108,17 @@ public class PurchaseController : Controller
         return View("TicketDetails", details!);
     }
 
+    public async Task<IActionResult> ArchivedDetails(int? id)
+    {
+        var archivedDetails = await _context.ArchivedPurchases.Include(f => f.Flight).ThenInclude(a => a.Aircraft)
+            .FirstOrDefaultAsync(p => p.OriginalPurchaseNumber == id);
+        if (archivedDetails == null)
+        {
+            return NotFound();
+        }
+        return View("ArchivedTicketDetails",archivedDetails);
+    }
+
     [HttpGet]
     public async Task<IActionResult> QRCode(int? id)
 
@@ -141,6 +152,11 @@ public class PurchaseController : Controller
         ViewBag.PurchaseNumber = info.PurchaseNumber;
         return View();
 
+    }
+
+    public Task ArchiveOldFlights()
+    {
+        return _purchaseService.ArchiveOldFlights();
     }
 
 
