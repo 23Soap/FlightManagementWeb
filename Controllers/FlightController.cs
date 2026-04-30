@@ -45,12 +45,18 @@ public class FlightController : Controller
                     .ToListAsync();
                 ViewBag.userPurchases = getUserPurchases;
                 ViewBag.userRole = getUserRole;
+                var archivedFlights = await _context.ArchivedPurchases.Where(m => m.UserId == user.Id)
+                    .Include(f => f.Flight)
+                    .ThenInclude(a => a.Aircraft)
+                    .ToListAsync();
+                ViewBag.archivedFlights = archivedFlights;
             }
             else
             {
                 TempData["UserAlert"] = "Please Enter a Valid E-Mail, Try again! ";
             }
         }
+        
         var list = await _context.Flights.Include(plane => plane.Aircraft).ToListAsync();
         return View(list);
     }
