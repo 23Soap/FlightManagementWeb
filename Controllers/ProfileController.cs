@@ -1,5 +1,6 @@
 ﻿using FlightManagementWeb.Data;
 using FlightManagementWeb.Models;
+using FlightManagementWeb.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,36 +14,46 @@ public class ProfileController : Controller
     
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
-    public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    private readonly PurchaseService _purchaseService;
+    public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager,PurchaseService purchaseService)
     {
         _logger = logger;
         _context = context;
         _userManager = userManager;
+        _purchaseService =  purchaseService;
     }
     [Authorize(Roles = "User,Admin,Manager")]
-    [HttpGet]
-    public async Task<IActionResult> Profile()
-    {
-        var user = await _userManager.GetUserAsync(User);
-        var final = await _context.Purchases.Include(f => f.Flight)
+[HttpGet]
+public async Task<IActionResult> Profile()
+{
+    var user = await _userManager.GetUserAsync(User);
+
+    var purchases = await _context.Purchases
+        .Include(f => f.Flight)
             .ThenInclude(a => a.Aircraft)
-            .Where(f => f.UserId == user.Id)
-            .ToListAsync();
+        .Where(f => f.UserId == user.Id)
+        .ToListAsync();
+    
+    var nextFlight = purchases.Where(g => g.Flight.DepartureDate >= DateTime.UtcNow).ToList();
+    var todayFlight = purchases.Where(g => g.Flight.DepartureDate.Date == DateTime.UtcNow.Date).ToList();
 
-        var previousFlight = final.Where(g => g.Flight.DepartureDate < DateTime.UtcNow).ToList();
-        var nextFlight = final.Where(g => g.Flight.DepartureDate >= DateTime.UtcNow).ToList();
-        var todayFlight = final.Where(g => g.Flight.DepartureDate == DateTime.UtcNow.Date).ToList();
+    var previousFlight = await _context.ArchivedPurchases
+        .Include(a => a.Flight)
+            .ThenInclude(f => f.Aircraft)
+        .Where(a => a.UserId == user.Id)
+        .ToListAsync();
 
-        var viewModel = new Profile
-        {
-            User = user,
-            PreviousFlight = previousFlight,
-            NextFlight = nextFlight,
-            TodayFlight = todayFlight
-        };
-        
-        return View(viewModel);
-    }
+    
+    var viewModel = new Profile
+    {
+        User = user,
+        PreviousFlight = previousFlight,
+        NextFlight = nextFlight,
+        TodayFlight = todayFlight
+    };
+    
+    return View(viewModel);
+}
     [HttpGet, Authorize(Roles = "User,Admin,Manager")]
     public async Task<IActionResult> EditProfile()
     {
