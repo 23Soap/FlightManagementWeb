@@ -117,15 +117,17 @@
         }
     @foreach (var oldPurchase in archivedFlights)
     {
-        <tr>
-            <td>@oldPurchase.Flight.Aircraft.AirlineName</td>
-            <td>@oldPurchase.Flight.DepartureCity</td>
-            <td>@oldPurchase.Flight.ArrivalCity</td>
-            <td>@oldPurchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
-            <td>$@oldPurchase.Flight.Price</td>
-    
-            <td></td>
-        </tr>
+        @if (oldPurchase.ArchivedFlight != null)
+        {
+            <tr>
+                <td>@oldPurchase.ArchivedFlight.AirlineName</td>
+                <td>@oldPurchase.ArchivedFlight.DepartureCity</td>
+                <td>@oldPurchase.ArchivedFlight.ArrivalCity</td>
+                <td>@oldPurchase.ArchivedFlight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
+                <td>$@oldPurchase.ArchivedFlight.Price</td>
+                <td></td>
+            </tr>
+        }
     }
         </tbody>
     </table>

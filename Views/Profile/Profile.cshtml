@@ -146,13 +146,13 @@
                     @foreach (var purchase in Model.PreviousFlight)
                     {
                         <tr>
-                            <td>@purchase.Flight.Aircraft.AirlineName</td>
-                            <td>@purchase.Flight.DepartureCity</td>
-                            <td>@purchase.Flight.ArrivalCity</td>
-                            <td>@purchase.Flight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
+                            <td>@purchase.ArchivedFlight.AirlineName</td>
+                            <td>@purchase.ArchivedFlight.DepartureCity</td>
+                            <td>@purchase.ArchivedFlight.ArrivalCity</td>
+                            <td>@purchase.ArchivedFlight.DepartureDate.ToString("MMM dd, yyyy HH:mm")</td>
                             <td>
                                 <a asp-action="ArchivedDetails" 
-                                   asp-controller="Purchase" 
+                                   asp-controller="Purchase"
                                    asp-route-id="@purchase.OriginalPurchaseNumber"
                                    class="btn btn-primary btn-sm">
                                     See Ticket Details

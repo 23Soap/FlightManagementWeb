@@ -110,7 +110,7 @@ public class PurchaseController : Controller
 
     public async Task<IActionResult> ArchivedDetails(int? id)
     {
-        var archivedDetails = await _context.ArchivedPurchases.Include(f => f.Flight).ThenInclude(a => a.Aircraft)
+        var archivedDetails = await _context.ArchivedPurchases.Include(f => f.ArchivedFlight)
             .FirstOrDefaultAsync(p => p.OriginalPurchaseNumber == id);
         if (archivedDetails == null)
         {
@@ -153,11 +153,4 @@ public class PurchaseController : Controller
         return View();
 
     }
-
-    public Task ArchiveOldFlights()
-    {
-        return _purchaseService.ArchiveOldFlights();
-    }
-
-
 }

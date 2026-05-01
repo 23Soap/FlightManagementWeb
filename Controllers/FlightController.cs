@@ -46,8 +46,7 @@ public class FlightController : Controller
                 ViewBag.userPurchases = getUserPurchases;
                 ViewBag.userRole = getUserRole;
                 var archivedFlights = await _context.ArchivedPurchases.Where(m => m.UserId == user.Id)
-                    .Include(f => f.Flight)
-                    .ThenInclude(a => a.Aircraft)
+                    .Include(f => f.ArchivedFlight)
                     .ToListAsync();
                 ViewBag.archivedFlights = archivedFlights;
             }
@@ -240,7 +239,4 @@ public class FlightController : Controller
         return RedirectToAction(nameof(Admin));
     }
 
-
-    
-    
 }
