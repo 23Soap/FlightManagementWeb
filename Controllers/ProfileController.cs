@@ -15,17 +15,19 @@ public class ProfileController : Controller
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly PurchaseService _purchaseService;
-    public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager,PurchaseService purchaseService)
+    private readonly ArchiveService _archiveService;
+    public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager,ArchiveService archiveService, PurchaseService purchaseService)
     {
         _logger = logger;
         _context = context;
         _userManager = userManager;
-        _purchaseService =  purchaseService;
+        _archiveService =  archiveService;
     }
     [Authorize(Roles = "User,Admin,Manager")]
 [HttpGet]
 public async Task<IActionResult> Profile()
 {
+    await _archiveService.ArchiveAll();
     var user = await _userManager.GetUserAsync(User);
 
     var purchases = await _context.Purchases
@@ -37,12 +39,7 @@ public async Task<IActionResult> Profile()
     var nextFlight = purchases.Where(g => g.Flight.DepartureDate >= DateTime.UtcNow).ToList();
     var todayFlight = purchases.Where(g => g.Flight.DepartureDate.Date == DateTime.UtcNow.Date).ToList();
 
-    var previousFlight = await _context.ArchivedPurchases
-        .Include(a => a.Flight)
-            .ThenInclude(f => f.Aircraft)
-        .Where(a => a.UserId == user.Id)
-        .ToListAsync();
-
+    var previousFlight = await _context.ArchivedPurchases.Include(a => a.ArchivedFlight).Where(a => a.UserId == user.Id).ToListAsync();
     
     var viewModel = new Profile
     {

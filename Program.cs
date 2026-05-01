@@ -30,6 +30,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<PurchaseService>();
+builder.Services.AddScoped<ArchiveService>();
 
 // -----------------------------------------------------------
 

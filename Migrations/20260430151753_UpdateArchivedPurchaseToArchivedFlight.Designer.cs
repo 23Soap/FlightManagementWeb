@@ -3,6 +3,7 @@ using System;
 using FlightManagementWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FlightManagementWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260430151753_UpdateArchivedPurchaseToArchivedFlight")]
+    partial class UpdateArchivedPurchaseToArchivedFlight
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,7 +194,7 @@ namespace FlightManagementWeb.Migrations
                     b.Property<DateTime>("ArchivedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("ArchivedFlightId")
+                    b.Property<int>("ArchivedFlightId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Email")
@@ -201,9 +204,6 @@ namespace FlightManagementWeb.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("FlightId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -461,7 +461,9 @@ namespace FlightManagementWeb.Migrations
                 {
                     b.HasOne("FlightManagementWeb.Models.ArchivedFlight", "ArchivedFlight")
                         .WithMany()
-                        .HasForeignKey("ArchivedFlightId");
+                        .HasForeignKey("ArchivedFlightId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ArchivedFlight");
                 });

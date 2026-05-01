@@ -15,22 +15,22 @@
             <hr>
             
             <h5>Flight Information</h5>
-            <p><strong>From:</strong> @Model.Flight.DepartureCity</p>
-            <p><strong>To:</strong> @Model.Flight.ArrivalCity</p>
-            <p><strong>Date:</strong> @Model.Flight.DepartureDate.ToString("MMM dd, yyyy")</p>
-            <p><strong>Time:</strong> @Model.Flight.DepartureDate.ToString("HH:mm")</p>
-            <p><strong>Airline:</strong> @Model.Flight.Aircraft.AirlineName</p>
+            <p><strong>From:</strong> @Model.ArchivedFlight.DepartureCity</p>
+            <p><strong>To:</strong> @Model.ArchivedFlight.ArrivalCity</p>
+            <p><strong>Date:</strong> @Model.ArchivedFlight.DepartureDate.ToString("MMM dd, yyyy")</p>
+            <p><strong>Time:</strong> @Model.ArchivedFlight.DepartureDate.ToString("HH:mm")</p>
+            <p><strong>Airline:</strong> @Model.ArchivedFlight.AirlineName</p>
             
             <hr>
             
             <h5>Booking Information</h5>
             <p><strong>Booking Number:</strong> @Model.OriginalPurchaseNumber</p>
-            <p><strong>Price:</strong> $@Model.Flight.Price</p>
+            <p><strong>Price:</strong> $@Model.ArchivedFlight.Price</p>
             
             <hr>
             <h5>Aircraft Information</h5>
-            <p><strong>Aircraft Model:</strong> @Model.Flight.Aircraft.AircraftModel</p>
-            <p><strong>Tail Number:</strong> @Model.Flight.Aircraft.TailNumber</p>
+            <p><strong>Aircraft Model:</strong> @Model.ArchivedFlight.AircraftModel</p>
+            <p><strong>Tail Number:</strong> @Model.ArchivedFlight.TailNumber</p>
         </div>
     </div>
     

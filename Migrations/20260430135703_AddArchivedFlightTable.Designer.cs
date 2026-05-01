@@ -3,6 +3,7 @@ using System;
 using FlightManagementWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FlightManagementWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260430135703_AddArchivedFlightTable")]
+    partial class AddArchivedFlightTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,14 +140,6 @@ namespace FlightManagementWeb.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ArchivedFlightId"));
 
-                    b.Property<string>("AircraftModel")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("AirlineName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("ArchivedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -171,10 +166,6 @@ namespace FlightManagementWeb.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("TailNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("ArchivedFlightId");
 
                     b.ToTable("ArchivedFlights");
@@ -190,9 +181,6 @@ namespace FlightManagementWeb.Migrations
 
                     b.Property<DateTime>("ArchivedDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("ArchivedFlightId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -217,7 +205,7 @@ namespace FlightManagementWeb.Migrations
 
                     b.HasKey("ArchivedPurchaseId");
 
-                    b.HasIndex("ArchivedFlightId");
+                    b.HasIndex("FlightId");
 
                     b.ToTable("ArchivedPurchases");
                 });
@@ -459,11 +447,13 @@ namespace FlightManagementWeb.Migrations
 
             modelBuilder.Entity("FlightManagementWeb.Models.ArchivedPurchase", b =>
                 {
-                    b.HasOne("FlightManagementWeb.Models.ArchivedFlight", "ArchivedFlight")
+                    b.HasOne("FlightManagementWeb.Models.Flight", "Flight")
                         .WithMany()
-                        .HasForeignKey("ArchivedFlightId");
+                        .HasForeignKey("FlightId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ArchivedFlight");
+                    b.Navigation("Flight");
                 });
 
             modelBuilder.Entity("FlightManagementWeb.Models.Flight", b =>
