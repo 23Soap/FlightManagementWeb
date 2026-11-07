@@ -1,8 +1,10 @@
+# Kullanıcıya özel dosyalar
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 
+# Derleme (Build) ve çıktı klasörleri
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -17,16 +19,17 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+# IDE klasörleri
 .vs/
 .vscode/
+.idea/
 
+# Paketler ve önbellekler
 *.nupkg
 *.snupkg
 **/packages/*
 !**/packages/build/
-
 .sass-cache/
-
 *.cache
 *.log
 *.vspscc
@@ -36,27 +39,18 @@ bld/
 *.svclog
 *.scc
 
-.idea/
-
+# Yerel veritabanı dosyaları
 *.db
 *.db-shm
 *.db-wal
 
+# Geçici dosyalar
 ScaffoldingReadMe.txt
-
-appsettings.Development.json
-appsettings.Production.json
-
-wwwroot/lib/
-
 *~
 *.tmp
 *.bak
 *.swp
 
-*.png
-*.jpg
-*.jpegappsettings.json
+# Ortam ayarları (Sadece gizli şifrelerin olduğu yerel dosyaları gizle)
 appsettings.Development.json
-appsettings.json
-appsettings.Development.json
+appsettings.Production.json
